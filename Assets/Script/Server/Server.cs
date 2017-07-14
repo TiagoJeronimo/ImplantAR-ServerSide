@@ -18,6 +18,7 @@ public class Server : MonoBehaviour
 
     public Text LoginText; 
     public static Vector3 Position;
+    public static Vector3 RelativePosition;
     public static Quaternion Rotation;
 
     private void Start() {
@@ -40,7 +41,7 @@ public class Server : MonoBehaviour
 
     }
 
-    private void Update() {
+    private void FixedUpdate() {
         if (!serverStarted)
             return;
 
@@ -106,10 +107,11 @@ public class Server : MonoBehaviour
     private void OnIncomingData(ServerClient c, string data) {
         //All data sent by the client
         //Debug.Log(c.clientName + "has sent the following message: " + data);
-        if(TransformType(data) == 1) //postion
-            Position = StringToVector3(data);
-        if (TransformType(data) == 2) //rotation 
-            Rotation = StringToQuaternion(data);
+        if (TransformType(data) == 1) //postion
+            if (data.StartsWith("(")) RelativePosition = StringToVector3(data);
+        //Position = StringToVector3(data);
+        /*if (TransformType(data) == 2) //rotation 
+            Rotation = StringToQuaternion(data);*/
         Broadcast(data, clients);
     }
 
@@ -131,10 +133,9 @@ public class Server : MonoBehaviour
     }
 
     private Vector3 StringToVector3(string sVector) {
+        Debug.Log("Before string: " + sVector);
         // Remove the parentheses
-        if (sVector.StartsWith("(")) {
-            sVector = sVector.Substring(1, sVector.Length - 3);
-        }
+        sVector = sVector.Substring(1, sVector.Length - 3);
         // split the items
         string[] sArray = sVector.Split(',');
 
