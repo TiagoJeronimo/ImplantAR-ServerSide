@@ -133,7 +133,7 @@ public class Server : MonoBehaviour
     }
 
     private Vector3 StringToVector3(string sVector) {
-        Debug.Log("Before string: " + sVector);
+        //Debug.Log("Before string: " + sVector);
         // Remove the parentheses
         sVector = sVector.Substring(1, sVector.Length - 3);
         // split the items

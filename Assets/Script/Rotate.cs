@@ -13,9 +13,6 @@ public class Rotate : MonoBehaviour {
     Vector3 angleDelta;
     GameObject rotationCentre;
 
-    private float RotX = 0.0f;
-    private float RotY = 0.0f;
-
     // Update is called once per frame
     void Update () {
         if (Input.GetMouseButtonDown(0)) {
