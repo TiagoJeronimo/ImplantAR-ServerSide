@@ -24,7 +24,7 @@ public class SliceAlong : MonoBehaviour {
     public void Update() {
         SliceNumber = (int)mainSlider.value;
         
-        if (Input.GetAxis("Mouse ScrollWheel") != 0f) {      
+        if (Input.GetAxis("Mouse ScrollWheel") != 0f) {      //not done yet
             SliceNumber += (int) Input.GetAxis("Mouse ScrollWheel");
             Debug.Log("Scrolling");
         }
