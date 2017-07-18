@@ -6,7 +6,7 @@ public class Pan : MonoBehaviour {
 
     private Vector3 MousePosition;
     private Vector3 InitialPos;
-    bool Dragit;
+    public static bool Dragit;
     float DistZ = 0;
 
     private void OnMouseDown() {
