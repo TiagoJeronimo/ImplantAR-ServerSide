@@ -22,7 +22,7 @@ public class Transformer : MonoBehaviour {
 
     void LateUpdate() {
         transform.rotation = rotation;
-        //the implant doesn't rotate with it's parent because of this. Best option is to change it's rotation on blender 
+        //the implant doesn't rotate with his parent because of this. Best option is to change it's rotation on blender 
     }
 
 }
