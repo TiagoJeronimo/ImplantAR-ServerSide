@@ -11,7 +11,7 @@ public class SagittalCursorManager : MonoBehaviour {
     public GameObject CoronalImages;
     public GameObject SagittalImages;
 
-    private Vector2 AxialImageDimensions;
+    public Vector2 ImageDimensions;
 
     //PAN STUFF//
     private Vector3 MousePosition;
@@ -30,7 +30,7 @@ public class SagittalCursorManager : MonoBehaviour {
             foreach (Transform child in CoronalImages.transform) {
                 child.gameObject.SetActive(false);
             }
-            CoronalImages.transform.GetChild((int)this.transform.localPosition.x).gameObject.SetActive(true);
+            CoronalImages.transform.GetChild(MapCoordinatesToImage(this.transform.localPosition.x, CoronalImages)).gameObject.SetActive(true);
 
             /*Limitar de 0 a 166, ou seja o tamanho da imagem*/
 
@@ -38,8 +38,14 @@ public class SagittalCursorManager : MonoBehaviour {
                 child.gameObject.SetActive(false);
             }
             //Negative 'cause 0 begins above
-            AxialImages.transform.GetChild((int)-this.transform.localPosition.y).gameObject.SetActive(true);
+            AxialImages.transform.GetChild(MapCoordinatesToImage(-this.transform.localPosition.y, AxialImages)).gameObject.SetActive(true);
         }
+    }
+
+    private int MapCoordinatesToImage(float coord, GameObject imageType) { //makes a correlation between coordinates and the corresponding image
+        float relation = imageType.transform.childCount / ImageDimensions.x;
+        int imageNumber = Mathf.RoundToInt(coord * relation);
+        return imageNumber;
     }
 
     //PAN STUFF///
