@@ -14,10 +14,10 @@ public class Transformer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        this.transform.position = Jaw.transform.position - Server.RelativePosition;
+        //this.transform.position = Jaw.transform.position - Server.RelativePosition;
 
         //transform.position = Server.Position;
-        transform.rotation = Server.Rotation;
+        //transform.rotation = Server.Rotation;
 	}
 
     void LateUpdate() {
