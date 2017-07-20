@@ -67,7 +67,10 @@ public class MapImplantOnCT : MonoBehaviour {
             foreach (Transform child in AxialImages.transform) {
                 child.gameObject.SetActive(false);
             }
-            AxialImages.transform.GetChild(MapCoordinatesToImage(this.transform.localPosition.z - this.transform.parent.position.z, AxialImages, ImageDimensions.y)).gameObject.SetActive(true);
+            int imageNumber = MapCoordinatesToImage(this.transform.localPosition.z - this.transform.parent.position.z, AxialImages, ImageDimensions.y);
+            if (imageNumber > 0 && imageNumber < AxialImages.transform.childCount)
+                AxialImages.transform.GetChild(imageNumber).gameObject.SetActive(true);
+
             UpdateCursorPositions = true;
         }
 
