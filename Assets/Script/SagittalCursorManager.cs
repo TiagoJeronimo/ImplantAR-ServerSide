@@ -19,6 +19,9 @@ public class SagittalCursorManager : MonoBehaviour {
     private bool Dragit;
     float DistZ = 0;
 
+    //Limit position stuff
+    private Vector3 LastPostion;
+
     // Update is called once per frame
     void Update() {
         if (Dragit) {
@@ -30,7 +33,7 @@ public class SagittalCursorManager : MonoBehaviour {
             foreach (Transform child in CoronalImages.transform) {
                 child.gameObject.SetActive(false);
             }
-            CoronalImages.transform.GetChild(MapCoordinatesToImage(this.transform.localPosition.x, CoronalImages)).gameObject.SetActive(true);
+            CoronalImages.transform.GetChild(MapCoordinatesToImage(this.transform.localPosition.x, CoronalImages, ImageDimensions.x)).gameObject.SetActive(true);
 
             /*Limitar de 0 a 166, ou seja o tamanho da imagem*/
 
@@ -38,12 +41,12 @@ public class SagittalCursorManager : MonoBehaviour {
                 child.gameObject.SetActive(false);
             }
             //Negative 'cause 0 begins above
-            AxialImages.transform.GetChild(MapCoordinatesToImage(-this.transform.localPosition.y, AxialImages)).gameObject.SetActive(true);
+            AxialImages.transform.GetChild(MapCoordinatesToImage(-this.transform.localPosition.y, AxialImages, ImageDimensions.y)).gameObject.SetActive(true);
         }
     }
 
-    private int MapCoordinatesToImage(float coord, GameObject imageType) { //makes a correlation between coordinates and the corresponding image
-        float relation = imageType.transform.childCount / ImageDimensions.x;
+    private int MapCoordinatesToImage(float coord, GameObject imageType, float imageDimension) { //makes a correlation between coordinates and the corresponding image
+        float relation = imageType.transform.childCount / imageDimension;
         int imageNumber = Mathf.RoundToInt(coord * relation);
         return imageNumber;
     }
@@ -61,9 +64,17 @@ public class SagittalCursorManager : MonoBehaviour {
         MousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, DistZ);
         Vector3 pos = Camera.main.ScreenToWorldPoint(MousePosition);
         if (Dragit)
-            transform.position = pos - InitialPos;
+            CursorOutOfBounds(pos);
     }
     private void OnMouseUp() {
         Dragit = false;
+    }
+
+    private void CursorOutOfBounds(Vector3 pos) {
+        LastPostion = transform.position;
+        Vector3 mousePos = pos - InitialPos;
+        transform.position = mousePos;
+        if (transform.localPosition.x >= 0 && transform.localPosition.x <= ImageDimensions.x && transform.localPosition.y <= 0 && transform.localPosition.y > -ImageDimensions.y) { /**/ } else
+            transform.position = LastPostion;
     }
 }
