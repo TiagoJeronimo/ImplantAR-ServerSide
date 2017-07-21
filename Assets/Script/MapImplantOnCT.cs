@@ -60,7 +60,7 @@ public class MapImplantOnCT : MonoBehaviour {
         UpdateCursorPositions = false;
         if ((transform.position.x != x || transform.position.y != y || transform.position.z != z)) {
 
-            AxialCursor.transform.localPosition = new Vector3(this.transform.localPosition.x + this.transform.parent.position.x + 45, this.transform.localPosition.y + this.transform.parent.position.y, AxialCursor.transform.localPosition.z);
+            AxialCursor.transform.localPosition = new Vector3(this.transform.localPosition.x + this.transform.parent.position.x, this.transform.localPosition.y + this.transform.parent.position.y, AxialCursor.transform.localPosition.z);
             CoronalCursor.transform.localPosition = new Vector3(CoronalCursor.transform.localPosition.x, -this.transform.localPosition.z + this.transform.parent.localPosition.y, CoronalCursor.transform.localPosition.z);
             SagittalCursor.transform.localPosition = new Vector3(SagittalCursor.transform.localPosition.x, -this.transform.localPosition.z + this.transform.parent.localPosition.y, SagittalCursor.transform.localPosition.z);
 

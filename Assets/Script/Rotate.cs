@@ -5,11 +5,23 @@ using UnityEngine;
 public class Rotate : MonoBehaviour {
 
     // rotate
-    public float rotSpeed = 4.0f;
+    public float RotSpeed = 4.0f;
+    public static bool IsRotating;
+
+    private void OnMouseDown() {
+        IsRotating = true;
+    }
 
     private void OnMouseDrag() {
-        float h = rotSpeed * Input.GetAxis("Mouse X");
-        float v = rotSpeed * Input.GetAxis("Mouse Y");
-        transform.Rotate(-v, 0, h);
+
+        float rotX = Input.GetAxis("Mouse X") * RotSpeed * Mathf.Deg2Rad;
+        float rotY = Input.GetAxis("Mouse Y") * RotSpeed * Mathf.Deg2Rad;
+
+        transform.Rotate(Vector3.up, -rotX, Space.World);
+        transform.Rotate(Vector3.right, rotY, Space.World);
+    }
+
+    private void OnMouseUp() {
+        IsRotating = false;
     }
 }

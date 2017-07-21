@@ -7,22 +7,31 @@ public class Transformer : MonoBehaviour {
     GameObject Jaw;
     Quaternion rotation;
 
+    Vector3 LastPosition;
+    Vector3 LastLocalPosition;
+
     void Start() {
         rotation = transform.rotation;
-        Jaw = GameObject.FindGameObjectWithTag("Jaw");
+        Jaw = transform.parent.gameObject;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        //this.transform.position = Jaw.transform.position - Server.RelativePosition;
+        if (!Rotate.IsRotating) {
+            this.transform.position = Jaw.transform.position - Server.RelativePosition;
+            if(LastPosition == this.transform.position) {
+                this.transform.localPosition = LastLocalPosition;
+            } 
+            else if (LastPosition != this.transform.position) {
+                Debug.Log("entrei"); //continua a entrar aqui!!!
+                LastPosition = this.transform.position;
+                LastLocalPosition = this.transform.localPosition;
+            }
+            
+            Debug.Log("- position: " + this.transform.position);
+            Debug.Log("- localPosition: " + this.transform.localPosition);
+        }
 
-        //transform.position = Server.Position;
         //transform.rotation = Server.Rotation;
 	}
-
-    void LateUpdate() {
-        //transform.rotation = rotation;
-        //the implant doesn't rotate with his parent because of this. Best option is to change it's rotation on blender 
-    }
-
 }
