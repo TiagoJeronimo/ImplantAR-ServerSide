@@ -23,13 +23,13 @@ public class Transformer : MonoBehaviour {
                 this.transform.localPosition = LastLocalPosition;
             } 
             else if (LastPosition != this.transform.position) {
-                Debug.Log("entrei"); //continua a entrar aqui!!!
+                //Debug.Log("entrei"); //continua a entrar aqui!!!
                 LastPosition = this.transform.position;
                 LastLocalPosition = this.transform.localPosition;
             }
             
-            Debug.Log("- position: " + this.transform.position);
-            Debug.Log("- localPosition: " + this.transform.localPosition);
+            //Debug.Log("- position: " + this.transform.position);
+            //Debug.Log("- localPosition: " + this.transform.localPosition);
         }
 
         //transform.rotation = Server.Rotation;

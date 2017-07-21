@@ -74,11 +74,14 @@ public class MapImplantOnCT : MonoBehaviour {
             UpdateCursorPositions = true;
         }
 
-        if (transform.position.x != x) {
+        if (transform.position.x != x) { //SAGITTAL
 
             foreach(Transform transformColor in SagittalObject.transform) {
                 transformColor.GetComponentInChildren<SpriteRenderer>().color = Color.white;
-            }  
+            }
+            //SagittalCursor.GetComponent<MeshRenderer>().enabled = false;
+            //SagittalCursor.tag = "Untagged";
+            //Sol: Dar um tag e no script SliceAlong ver quem tem tag e activar o render do implant lá
 
             x = transform.position.x; //posição do implante
             NrImage = ((x - XMin) * NrSagittalChildren) / XDimension;
@@ -97,15 +100,19 @@ public class MapImplantOnCT : MonoBehaviour {
                     FileName = "IMG-0003-00" + i;
                 //Debug.Log("Filename required: " + FileName);
                 Transform file = SagittalObject.transform.Find(FileName);
-                if (file)
+                if (file) {
                     file.GetComponent<SpriteRenderer>().color = Color.red; //if the sprite is red we know that this image has the implant in it
+                    //SagittalCursor.tag = "HI";
+                    //SagittalCursor.GetComponent<MeshRenderer>().enabled = true;
+                }
             }
         }
 
-        if (transform.position.y != y) {
+        if (transform.position.y != y) { //AXIAL
             foreach (Transform transformColor in AxialObject.transform) {
                 transformColor.GetComponentInChildren<SpriteRenderer>().color = Color.white;
             }
+            AxialCursor.GetComponent<SpriteRenderer>().color = Color.blue;
 
             y = transform.position.y; //posição do implante
             NrImage = ((y - YMin) * NrAxialChildren) / YDimension;
@@ -124,15 +131,19 @@ public class MapImplantOnCT : MonoBehaviour {
                     FileName = "IM-0001-0" + i;
                 //Debug.Log("Filename required: " + FileName);
                 Transform file = AxialObject.transform.Find(FileName);
-                if (file)
+                if (file) {
+                    Debug.Log("aki");
                     file.GetComponent<SpriteRenderer>().color = Color.red; //if the sprite is red we know that this image has the implant in it
+                    AxialCursor.GetComponent<SpriteRenderer>().color = Color.white;
+                }
             }
         }
 
-        if (transform.position.z != z) {
+        if (transform.position.z != z) { //CORONAL
             foreach (Transform transformColor in CoronalObject.transform) {
                 transformColor.GetComponentInChildren<SpriteRenderer>().color = Color.white;
             }
+           // CoronalCursor.GetComponent<MeshRenderer>().enabled = true;
 
             z = transform.position.z; //posição do implante
             NrImage = ((z - ZMin) * NrCoronalChildren) / ZDimension;
@@ -151,8 +162,10 @@ public class MapImplantOnCT : MonoBehaviour {
                     FileName = "IMG-0002-00" + i;
                 //Debug.Log("Filename required: " + FileName);
                 Transform file = CoronalObject.transform.Find(FileName);
-                if (file)
+                if (file) {
                     file.GetComponent<SpriteRenderer>().color = Color.red; //if the sprite is red we know that this image has the implant in it
+                    //CoronalCursor.GetComponent<MeshRenderer>().enabled = true;
+                }
             }
         }
     }
