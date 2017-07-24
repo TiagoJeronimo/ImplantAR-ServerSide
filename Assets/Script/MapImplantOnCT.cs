@@ -78,9 +78,10 @@ public class MapImplantOnCT : MonoBehaviour {
 
             foreach(Transform transformColor in SagittalObject.transform) {
                 transformColor.GetComponentInChildren<SpriteRenderer>().color = Color.white;
+                transformColor.tag = "Untagged";
             }
             //SagittalCursor.GetComponent<MeshRenderer>().enabled = false;
-            //SagittalCursor.tag = "Untagged";
+
             //Sol: Dar um tag e no script SliceAlong ver quem tem tag e activar o render do implant lá
 
             x = transform.position.x; //posição do implante
@@ -92,6 +93,8 @@ public class MapImplantOnCT : MonoBehaviour {
 
             for (float i = NrImage - ( ConvImplantX / 2 ); i <= NrImage + (ConvImplantX / 2); i++) {
                 i = Mathf.Round(i);
+                SagittalCursor.GetComponent<SagittalCursorManager>().SliceNumber = (int)i;
+                //SliceAlong.SliceNumber = (int)i;
                 if (NrImage < 10)
                     FileName = "IMG-0003-0000" + i;
                 else if (NrImage < 100)
@@ -102,7 +105,7 @@ public class MapImplantOnCT : MonoBehaviour {
                 Transform file = SagittalObject.transform.Find(FileName);
                 if (file) {
                     file.GetComponent<SpriteRenderer>().color = Color.red; //if the sprite is red we know that this image has the implant in it
-                    //SagittalCursor.tag = "HI";
+                    file.tag = "HI";
                     //SagittalCursor.GetComponent<MeshRenderer>().enabled = true;
                 }
             }
@@ -111,8 +114,9 @@ public class MapImplantOnCT : MonoBehaviour {
         if (transform.position.y != y) { //AXIAL
             foreach (Transform transformColor in AxialObject.transform) {
                 transformColor.GetComponentInChildren<SpriteRenderer>().color = Color.white;
+                transformColor.tag = "Untagged";
             }
-            AxialCursor.GetComponent<SpriteRenderer>().color = Color.blue;
+            //AxialCursor.GetComponent<SpriteRenderer>().color = Color.blue;
 
             y = transform.position.y; //posição do implante
             NrImage = ((y - YMin) * NrAxialChildren) / YDimension;
@@ -123,6 +127,8 @@ public class MapImplantOnCT : MonoBehaviour {
 
             for (float i = NrImage - (ConvImplantY / 2); i <= NrImage + (ConvImplantY / 2); i++) {
                 i = Mathf.Round(i);
+                AxialCursor.GetComponent<AxialCursorManager>().SliceNumber = (int)i;
+                //SliceAlong.SliceNumber = (int)i;
                 if (NrImage < 10)
                     FileName = "IM-0001-000" + i;
                 else if (NrImage < 100)
@@ -132,9 +138,8 @@ public class MapImplantOnCT : MonoBehaviour {
                 //Debug.Log("Filename required: " + FileName);
                 Transform file = AxialObject.transform.Find(FileName);
                 if (file) {
-                    Debug.Log("aki");
                     file.GetComponent<SpriteRenderer>().color = Color.red; //if the sprite is red we know that this image has the implant in it
-                    AxialCursor.GetComponent<SpriteRenderer>().color = Color.white;
+                    file.tag = "HI";
                 }
             }
         }
@@ -142,6 +147,7 @@ public class MapImplantOnCT : MonoBehaviour {
         if (transform.position.z != z) { //CORONAL
             foreach (Transform transformColor in CoronalObject.transform) {
                 transformColor.GetComponentInChildren<SpriteRenderer>().color = Color.white;
+                transformColor.tag = "Untagged";
             }
            // CoronalCursor.GetComponent<MeshRenderer>().enabled = true;
 
@@ -154,6 +160,8 @@ public class MapImplantOnCT : MonoBehaviour {
 
             for (float i = NrImage - (ConvImplantZ / 2); i <= NrImage + (ConvImplantZ / 2); i++) {
                 i = Mathf.Round(i);
+                CoronalCursor.GetComponent<CoronalCursorManager>().SliceNumber = (int)i;
+                //SliceAlong.SliceNumber = (int)i;
                 if (NrImage < 10)
                     FileName = "IMG-0002-0000" + i;
                 else if (NrImage < 100)
@@ -164,6 +172,7 @@ public class MapImplantOnCT : MonoBehaviour {
                 Transform file = CoronalObject.transform.Find(FileName);
                 if (file) {
                     file.GetComponent<SpriteRenderer>().color = Color.red; //if the sprite is red we know that this image has the implant in it
+                    file.tag = "HI";
                     //CoronalCursor.GetComponent<MeshRenderer>().enabled = true;
                 }
             }

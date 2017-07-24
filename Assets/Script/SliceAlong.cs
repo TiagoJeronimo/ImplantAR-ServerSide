@@ -8,7 +8,9 @@ public class SliceAlong : MonoBehaviour {
     public Slider mainSlider;
     public Text NumberOfSlices;
 
-    private int SliceNumber;
+    public int SliceNumber;
+    private int DiplayedFileNumber;
+    private int LastMainSliderNumber;
 
     //Invoked when a submit button is clicked.
     public void SubmitSliderSetting() {
@@ -16,14 +18,28 @@ public class SliceAlong : MonoBehaviour {
         foreach (Transform child in transform) {
             child.gameObject.SetActive(false);
         }
-        this.transform.GetChild(SliceNumber).gameObject.SetActive(true);
+        //Debug.Log("number in slide: " + DiplayedFileNumber);
+        this.transform.GetChild(DiplayedFileNumber).gameObject.SetActive(true);
 
         //Debug.Log((int)mainSlider.value); //it's jumping some images
     }
 
     public void Update() {
-        SliceNumber = (int)mainSlider.value;
+
+        LastMainSliderNumber = (int)mainSlider.value;
         
+        //SliceNumber = (int)mainSlider.value;
+        if(DiplayedFileNumber != LastMainSliderNumber) {
+            DiplayedFileNumber = LastMainSliderNumber;
+            SliceNumber = DiplayedFileNumber;
+        } else if(DiplayedFileNumber != SliceNumber) {
+            DiplayedFileNumber = SliceNumber;
+            //LastMainSliderNumber = SliceNumber;
+            mainSlider.value = SliceNumber;
+        }
+
+        //mainSlider.value = SliceNumber;
+
         if (Input.GetAxis("Mouse ScrollWheel") != 0f) {      //not done yet
             SliceNumber += (int) Input.GetAxis("Mouse ScrollWheel");
             Debug.Log("Scrolling");
