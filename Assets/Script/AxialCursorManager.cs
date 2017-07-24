@@ -44,7 +44,7 @@ public class AxialCursorManager : MonoBehaviour {
                 child.gameObject.SetActive(false);
             }
             int coronalChild = MapCoordinatesToImage(-this.transform.localPosition.y, CoronalImages, ImageDimensions.y, ImageDimensionsPadding.y);
-            CoronalImages.transform.GetChild(coronalChild).gameObject.SetActive(true);
+            CoronalImages.transform.GetChild(coronalChild).gameObject.SetActive(true); //child out of bounds here!! 
             CoronalCursor.GetComponent<CoronalCursorManager>().SliceNumber = coronalChild;
 
            foreach (Transform child in SagittalImages.transform) {
