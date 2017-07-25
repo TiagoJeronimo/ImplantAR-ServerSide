@@ -93,7 +93,7 @@ public class MapImplantOnCT : MonoBehaviour {
 
             for (float i = NrImage - ( ConvImplantX / 2 ); i <= NrImage + (ConvImplantX / 2); i++) {
                 i = Mathf.Round(i);
-                SagittalCursor.GetComponent<SagittalCursorManager>().SliceNumber = (int)i;
+                SagittalCursor.GetComponent<SagittalCursorManager>().UpdateSlide((int)i);
                 //SliceAlong.SliceNumber = (int)i;
                 if (NrImage < 10)
                     FileName = "IMG-0003-0000" + i;
@@ -127,7 +127,7 @@ public class MapImplantOnCT : MonoBehaviour {
 
             for (float i = NrImage - (ConvImplantY / 2); i <= NrImage + (ConvImplantY / 2); i++) {
                 i = Mathf.Round(i);
-                AxialCursor.GetComponent<AxialCursorManager>().SliceNumber = (int)i;
+                AxialCursor.GetComponent<AxialCursorManager>().UpdateSlide((int)i);
                 //SliceAlong.SliceNumber = (int)i;
                 if (NrImage < 10)
                     FileName = "IM-0001-000" + i;
@@ -160,7 +160,7 @@ public class MapImplantOnCT : MonoBehaviour {
 
             for (float i = NrImage - (ConvImplantZ / 2); i <= NrImage + (ConvImplantZ / 2); i++) {
                 i = Mathf.Round(i);
-                CoronalCursor.GetComponent<CoronalCursorManager>().SliceNumber = (int)i;
+                CoronalCursor.GetComponent<CoronalCursorManager>().UpdateSlide((int)i);
                 //SliceAlong.SliceNumber = (int)i;
                 if (NrImage < 10)
                     FileName = "IMG-0002-0000" + i;

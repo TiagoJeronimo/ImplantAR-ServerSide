@@ -12,6 +12,9 @@ public class AxialCursorManager : MonoBehaviour {
     public GameObject CoronalImages;
     public GameObject SagittalImages;
 
+    private CoronalCursorManager coronalCursorManager;
+    private SagittalCursorManager sagittalCursorManager;
+
     public Vector2 ImageDimensions;
     public Vector2 ImageDimensionsPadding;
 
@@ -24,12 +27,16 @@ public class AxialCursorManager : MonoBehaviour {
     //SLIDER STUFF//
     public Slider mainSlider;
     public Text NumberOfSlices;
-    public int SliceNumber;
     private int DiplayedFileNumber = 1;
     private int LastMainSliderNumber;
 
     //Limit position stuff
     private Vector3 LastPostion;
+
+    void Start() {
+        coronalCursorManager = CoronalCursor.GetComponent<CoronalCursorManager>();
+        sagittalCursorManager = SagittalCursor.GetComponent<SagittalCursorManager>();
+    }
 
     // Update is called once per frame
     void Update() {
@@ -45,7 +52,7 @@ public class AxialCursorManager : MonoBehaviour {
             }
             int coronalChild = MapCoordinatesToImage(-this.transform.localPosition.y, CoronalImages, ImageDimensions.y, ImageDimensionsPadding.y);
             CoronalImages.transform.GetChild(coronalChild).gameObject.SetActive(true); //child out of bounds here!! 
-            CoronalCursor.GetComponent<CoronalCursorManager>().SliceNumber = coronalChild;
+            coronalCursorManager.UpdateSlide(coronalChild);
 
            foreach (Transform child in SagittalImages.transform) {
                 child.gameObject.SetActive(false);
@@ -53,23 +60,18 @@ public class AxialCursorManager : MonoBehaviour {
             //Negative 'cause 0 begins above
             int sagittalChild = MapCoordinatesToImage(this.transform.localPosition.x, SagittalImages, ImageDimensions.x, ImageDimensionsPadding.x);
             SagittalImages.transform.GetChild(sagittalChild).gameObject.SetActive(true);
-            SagittalCursor.GetComponent<SagittalCursorManager>().SliceNumber = sagittalChild;
+            sagittalCursorManager.UpdateSlide(sagittalChild);
         }
         LastPostion = transform.position;
 
-        UpdateSlide();
+        DiplayedFileNumber = (int)mainSlider.value;
+        NumberOfSlices.text = "S: " + DiplayedFileNumber;
     }
 
     private int MapCoordinatesToImage(float coord, GameObject imageType, float imageDimension, float imageDimensionPadding) { //makes a correlation between coordinates and the corresponding image
         float relation = imageType.transform.childCount / imageDimension;
         int imageNumber = Mathf.RoundToInt((coord - imageDimensionPadding) * relation);
         return imageNumber;
-    }
-
-    public void SlideToCoordinates(int slideValue) {
-        float correspondentCoordinate = (slideValue * ImageDimensions.y) / AxialImages.transform.childCount;
-        CoronalCursor.transform.localPosition = new Vector3(CoronalCursor.transform.localPosition.x, correspondentCoordinate, CoronalCursor.transform.localPosition.z);
-        SagittalCursor.transform.localPosition = new Vector3(SagittalCursor.transform.localPosition.x, correspondentCoordinate, SagittalCursor.transform.localPosition.z);
     }
 
     //PAN STUFF///
@@ -108,21 +110,26 @@ public class AxialCursorManager : MonoBehaviour {
 
     //SLIDER STUFF//
 
-    private void UpdateSlide() {
-        DiplayedFileNumber = (int)mainSlider.value;
-        
-        //mainSlider.value = SliceNumber;
-        NumberOfSlices.text = "S: " + SliceNumber;
+    public void UpdateSlide(int sliceNumber) {
+        mainSlider.value = sliceNumber;
+        NumberOfSlices.text = "S: " + sliceNumber;
     }
 
     //Invoked when a submit button is clicked.
     public void SubmitSliderSetting() {
-        //Displays the value of the slider in the console.
         foreach (Transform child in AxialImages.transform) {
             child.gameObject.SetActive(false);
         }
-        //Debug.Log("number in slide Axial: " + DiplayedFileNumber);
         AxialImages.transform.GetChild(DiplayedFileNumber).gameObject.SetActive(true);
-        SlideToCoordinates(LastMainSliderNumber);
+        MapImageToCoordinate(DiplayedFileNumber, CoronalImages, CoronalCursor, ImageDimensions.y, coronalCursorManager.ImageDimensionsPadding.y); // slice image -> coordinates.  SliceNumber, Sl
+        MapImageToCoordinate(DiplayedFileNumber, SagittalImages, SagittalCursor, ImageDimensions.y, sagittalCursorManager.ImageDimensionsPadding.y);
+    }
+
+    //slice image -> coordinates. Rec: SliceNumber, what kind of slice we want to know the coordinates, cursor we want to know the coord, 
+    //this image dimension, the padding of the slice we want to know the coordinates of
+    private void MapImageToCoordinate(int imageNumber, GameObject imageType, GameObject cursor, float imageDimension, float imageDimensionPadding) {
+        float relation = imageType.transform.childCount / imageDimension;
+        int coord = Mathf.RoundToInt((imageNumber / relation) + imageDimensionPadding);
+        cursor.transform.localPosition = new Vector3(cursor.transform.localPosition.x, -coord, cursor.transform.localPosition.z);
     }
 }
