@@ -128,7 +128,7 @@ public class SagittalCursorManager : MonoBehaviour {
         SagittalImages.transform.GetChild(DiplayedFileNumber).gameObject.SetActive(true);
         MapImageToCoordinate(DiplayedFileNumber, CoronalImages, CoronalCursor, ImageDimensions.x, coronalCursorManager.ImageDimensionsPadding.x, 0);
         MapImageToCoordinate(DiplayedFileNumber, CoronalImages, AxialCursor, ImageDimensions.x, axialCursorManager.ImageDimensionsPadding.x, 0);
-                                         //CoronalImages? should be AxialImages 
+                                         //CoronalImages (255)? should be AxialImages (166)
     }
 
     //slice image -> coordinates. Rec: SliceNumber, what kind of slice we want to know the coordinates, cursor we want to know the coord, 
