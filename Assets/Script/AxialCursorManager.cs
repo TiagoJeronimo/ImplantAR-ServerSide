@@ -44,7 +44,7 @@ public class AxialCursorManager : MonoBehaviour {
             CursorOutOffBoundsNoMouse(this.transform.position);
 
         if (Dragit || MapImplantOnCT.UpdateCursorPositions) {
-            CoronalCursor.transform.localPosition = new Vector3(this.transform.localPosition.x, CoronalCursor.transform.localPosition.y /**/, CoronalCursor.transform.localPosition.z);
+            CoronalCursor.transform.localPosition = new Vector3(this.transform.localPosition.x, CoronalCursor.transform.localPosition.y, CoronalCursor.transform.localPosition.z);
             SagittalCursor.transform.localPosition = new Vector3(-this.transform.localPosition.y, CoronalCursor.transform.localPosition.y, SagittalCursor.transform.localPosition.z);
 
            foreach (Transform child in CoronalImages.transform) {
@@ -111,8 +111,10 @@ public class AxialCursorManager : MonoBehaviour {
     //SLIDER STUFF//
 
     public void UpdateSlide(int sliceNumber) {
-        mainSlider.value = sliceNumber;
-        NumberOfSlices.text = "S: " + sliceNumber;
+        if (sliceNumber > 0 && sliceNumber < AxialImages.transform.childCount - 1) {
+            //mainSlider.value = sliceNumber;
+            //NumberOfSlices.text = "S: " + sliceNumber;
+        }
     }
 
     //Invoked when a submit button is clicked.

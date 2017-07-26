@@ -12,7 +12,7 @@ public class MapImplantOnCT : MonoBehaviour {
 
     //valor mais baixo das coordenadas do modelo
     private float XMin = 60;
-    private float YMin = -105;
+    private float YMin = -100;
     private float ZMin = -70;
 
     private float NrSagittalChildren;
@@ -21,7 +21,7 @@ public class MapImplantOnCT : MonoBehaviour {
 
     //coordenadas somadas (caso centrado em 0)
     private float XDimension = 133 - 60;
-    private float YDimension = 105 - 70;
+    private float YDimension = 100 - 75;
     private float ZDimension = 70 - 15;
 
     private string FileName;
@@ -44,6 +44,13 @@ public class MapImplantOnCT : MonoBehaviour {
     public GameObject AxialImages;
     public Vector2 ImageDimensions;
 
+    public bool ShowImplantOnSlicesFromClient;
+
+    //Implant Widget
+    public GameObject CoronalImplantWidget;
+    public GameObject SagittalImplantWidget;
+    public GameObject AxialImplantWidget;
+
     public static bool UpdateCursorPositions;
 
     private Vector3 LastPostion;
@@ -60,29 +67,34 @@ public class MapImplantOnCT : MonoBehaviour {
         UpdateCursorPositions = false;
         if ((transform.position.x != x || transform.position.y != y || transform.position.z != z)) {
 
-            AxialCursor.transform.localPosition = new Vector3(this.transform.localPosition.x + this.transform.parent.position.x, this.transform.localPosition.y + this.transform.parent.position.y, AxialCursor.transform.localPosition.z);
-            CoronalCursor.transform.localPosition = new Vector3(CoronalCursor.transform.localPosition.x, -this.transform.localPosition.z + this.transform.parent.localPosition.y, CoronalCursor.transform.localPosition.z);
-            SagittalCursor.transform.localPosition = new Vector3(SagittalCursor.transform.localPosition.x, -this.transform.localPosition.z + this.transform.parent.localPosition.y, SagittalCursor.transform.localPosition.z);
+            if(ShowImplantOnSlicesFromClient) {
+                AxialCursor.transform.localPosition = new Vector3(this.transform.position.x, this.transform.localPosition.y + this.transform.parent.position.y, AxialCursor.transform.localPosition.z);
+                CoronalCursor.transform.localPosition = new Vector3(CoronalCursor.transform.localPosition.x, ModelCoordToImageCoord(this.transform.position.y), CoronalCursor.transform.localPosition.z);
+                SagittalCursor.transform.localPosition = new Vector3(SagittalCursor.transform.localPosition.x, ModelCoordToImageCoord(this.transform.position.y), SagittalCursor.transform.localPosition.z);
 
-            foreach (Transform child in AxialImages.transform) {
-                child.gameObject.SetActive(false);
+                foreach (Transform child in AxialImages.transform) {
+                    child.gameObject.SetActive(false);
+                }
+
+                int imageNumber = MapCoordinatesToImage(this.transform.localPosition.z + 90, AxialImages, ImageDimensions.y); //ver este 90
+                if (imageNumber > 0 && imageNumber < AxialImages.transform.childCount)
+                    AxialImages.transform.GetChild(imageNumber).gameObject.SetActive(true);
             }
-            int imageNumber = MapCoordinatesToImage(this.transform.localPosition.z - this.transform.parent.position.z, AxialImages, ImageDimensions.y);
-            if (imageNumber > 0 && imageNumber < AxialImages.transform.childCount)
-                AxialImages.transform.GetChild(imageNumber).gameObject.SetActive(true);
+
+            AxialImplantWidget.transform.localPosition = new Vector3(this.transform.position.x, this.transform.localPosition.y + this.transform.parent.position.y, AxialCursor.transform.localPosition.z);
+            CoronalImplantWidget.transform.localPosition = new Vector3(this.transform.position.x, this.transform.position.y, CoronalCursor.transform.localPosition.z);
+            SagittalImplantWidget.transform.localPosition = new Vector3(-this.transform.localPosition.y - this.transform.parent.position.y, this.transform.position.y, SagittalCursor.transform.localPosition.z);
 
             UpdateCursorPositions = true;
         }
 
+        //know which slices have the implant 
         if (transform.position.x != x) { //SAGITTAL
 
             foreach(Transform transformColor in SagittalObject.transform) {
-                transformColor.GetComponentInChildren<SpriteRenderer>().color = Color.white;
+                //transformColor.GetComponentInChildren<SpriteRenderer>().color = Color.white;
                 transformColor.tag = "Untagged";
             }
-            //SagittalCursor.GetComponent<MeshRenderer>().enabled = false;
-
-            //Sol: Dar um tag e no script SliceAlong ver quem tem tag e activar o render do implant lá
 
             x = transform.position.x; //posição do implante
             NrImage = ((x - XMin) * NrSagittalChildren) / XDimension;
@@ -94,29 +106,25 @@ public class MapImplantOnCT : MonoBehaviour {
             for (float i = NrImage - ( ConvImplantX / 2 ); i <= NrImage + (ConvImplantX / 2); i++) {
                 i = Mathf.Round(i);
                 SagittalCursor.GetComponent<SagittalCursorManager>().UpdateSlide((int)i);
-                //SliceAlong.SliceNumber = (int)i;
                 if (NrImage < 10)
                     FileName = "IMG-0003-0000" + i;
                 else if (NrImage < 100)
                     FileName = "IMG-0003-000" + i;
                 else
                     FileName = "IMG-0003-00" + i;
-                //Debug.Log("Filename required: " + FileName);
                 Transform file = SagittalObject.transform.Find(FileName);
                 if (file) {
-                    file.GetComponent<SpriteRenderer>().color = Color.red; //if the sprite is red we know that this image has the implant in it
+                    //file.GetComponent<SpriteRenderer>().color = Color.red; //if the sprite is red we know that this image has the implant in it
                     file.tag = "HI";
-                    //SagittalCursor.GetComponent<MeshRenderer>().enabled = true;
                 }
             }
         }
 
         if (transform.position.y != y) { //AXIAL
             foreach (Transform transformColor in AxialObject.transform) {
-                transformColor.GetComponentInChildren<SpriteRenderer>().color = Color.white;
+                //transformColor.GetComponentInChildren<SpriteRenderer>().color = Color.white;
                 transformColor.tag = "Untagged";
             }
-            //AxialCursor.GetComponent<SpriteRenderer>().color = Color.blue;
 
             y = transform.position.y; //posição do implante
             NrImage = ((y - YMin) * NrAxialChildren) / YDimension;
@@ -128,17 +136,15 @@ public class MapImplantOnCT : MonoBehaviour {
             for (float i = NrImage - (ConvImplantY / 2); i <= NrImage + (ConvImplantY / 2); i++) {
                 i = Mathf.Round(i);
                 AxialCursor.GetComponent<AxialCursorManager>().UpdateSlide((int)i);
-                //SliceAlong.SliceNumber = (int)i;
                 if (NrImage < 10)
                     FileName = "IM-0001-000" + i;
                 else if (NrImage < 100)
                     FileName = "IM-0001-00" + i;
                 else
                     FileName = "IM-0001-0" + i;
-                //Debug.Log("Filename required: " + FileName);
                 Transform file = AxialObject.transform.Find(FileName);
                 if (file) {
-                    file.GetComponent<SpriteRenderer>().color = Color.red; //if the sprite is red we know that this image has the implant in it
+                    //file.GetComponent<SpriteRenderer>().color = Color.red; //if the sprite is red we know that this image has the implant in it
                     file.tag = "HI";
                 }
             }
@@ -146,10 +152,9 @@ public class MapImplantOnCT : MonoBehaviour {
 
         if (transform.position.z != z) { //CORONAL
             foreach (Transform transformColor in CoronalObject.transform) {
-                transformColor.GetComponentInChildren<SpriteRenderer>().color = Color.white;
+                //transformColor.GetComponentInChildren<SpriteRenderer>().color = Color.white;
                 transformColor.tag = "Untagged";
             }
-           // CoronalCursor.GetComponent<MeshRenderer>().enabled = true;
 
             z = transform.position.z; //posição do implante
             NrImage = ((z - ZMin) * NrCoronalChildren) / ZDimension;
@@ -161,27 +166,30 @@ public class MapImplantOnCT : MonoBehaviour {
             for (float i = NrImage - (ConvImplantZ / 2); i <= NrImage + (ConvImplantZ / 2); i++) {
                 i = Mathf.Round(i);
                 CoronalCursor.GetComponent<CoronalCursorManager>().UpdateSlide((int)i);
-                //SliceAlong.SliceNumber = (int)i;
                 if (NrImage < 10)
                     FileName = "IMG-0002-0000" + i;
                 else if (NrImage < 100)
                     FileName = "IMG-0002-000" + i;
                 else
                     FileName = "IMG-0002-00" + i;
-                //Debug.Log("Filename required: " + FileName);
                 Transform file = CoronalObject.transform.Find(FileName);
                 if (file) {
-                    file.GetComponent<SpriteRenderer>().color = Color.red; //if the sprite is red we know that this image has the implant in it
+                    //file.GetComponent<SpriteRenderer>().color = Color.red; //if the sprite is red we know that this image has the implant in it
                     file.tag = "HI";
-                    //CoronalCursor.GetComponent<MeshRenderer>().enabled = true;
                 }
             }
         }
     }
 
+    private float ModelCoordToImageCoord(float inModelCoord) {
+        //not working
+        float y = (80 * inModelCoord) / YMin; //80=Min das imagens (mudar isto)
+        return y;
+    }
+
     private int MapCoordinatesToImage(float coord, GameObject imageType, float imageDimension) { //makes a correlation between coordinates and the corresponding image
         float relation = imageType.transform.childCount / imageDimension;
-        int imageNumber = Mathf.RoundToInt(coord * relation);
+        int imageNumber = Mathf.RoundToInt(coord * relation) - 80; //padding from the other type of slices
         return imageNumber;
     }
 

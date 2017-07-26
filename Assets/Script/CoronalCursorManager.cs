@@ -110,8 +110,10 @@ public class CoronalCursorManager : MonoBehaviour {
     //SLIDER STUFF//
 
     public void UpdateSlide(int sliceNumber) {
-        mainSlider.value = sliceNumber;
-        NumberOfSlices.text = "S: " + sliceNumber;
+        if (sliceNumber > 0 && sliceNumber < CoronalImages.transform.childCount - 1) {
+            //mainSlider.value = sliceNumber;
+            //NumberOfSlices.text = "S: " + sliceNumber;
+        }
     }
 
     //Invoked when a submit button is clicked.

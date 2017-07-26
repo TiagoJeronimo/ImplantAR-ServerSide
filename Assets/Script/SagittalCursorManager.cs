@@ -116,8 +116,10 @@ public class SagittalCursorManager : MonoBehaviour {
     //SLIDER STUFF//
 
     public void UpdateSlide(int sliceNumber) {
-        mainSlider.value = sliceNumber;
-        NumberOfSlices.text = "S: " + sliceNumber;
+        if (sliceNumber > 0 && sliceNumber < SagittalImages.transform.childCount - 1) {
+            //mainSlider.value = sliceNumber;
+            //NumberOfSlices.text = "S: " + sliceNumber;
+        }
     }
 
     //Invoked when a submit button is clicked.
