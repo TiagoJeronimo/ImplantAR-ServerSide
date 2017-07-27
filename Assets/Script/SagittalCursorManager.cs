@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class SagittalCursorManager : MonoBehaviour {
@@ -33,6 +34,11 @@ public class SagittalCursorManager : MonoBehaviour {
     //Limit position stuff
     private Vector3 LastPostion;
 
+    //MOUSE SCROLL stuff
+    private int ScrollWheelValue = 0;
+    private Ray Ray;
+    private RaycastHit2D Hit;
+
     void Start() {
         coronalCursorManager = CoronalCursor.GetComponent<CoronalCursorManager>();
         axialCursorManager = AxialCursor.GetComponent<AxialCursorManager>();
@@ -63,6 +69,18 @@ public class SagittalCursorManager : MonoBehaviour {
             axialCursorManager.UpdateSlide(axialChild);
         }
         LastPostion = transform.position;
+
+        Ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Hit = Physics2D.Raycast(Ray.origin, Ray.direction);
+        if (Hit && Hit.collider.CompareTag("Sagittal")) {
+            if (Input.GetAxis("Mouse ScrollWheel") != 0f) {      //not done yet
+                ScrollWheelValue += Mathf.RoundToInt(Input.GetAxis("Mouse ScrollWheel") * 100);
+                ScrollWheelValue = Mathf.Clamp(ScrollWheelValue, 0, 600);//prevents value from exceeding specified range
+                mainSlider.value = ScrollWheelValue;
+            } else {
+                ScrollWheelValue = (int)mainSlider.value;
+            }
+        }
 
         DiplayedFileNumber = (int)mainSlider.value;
         NumberOfSlices.text = "S: " + DiplayedFileNumber;

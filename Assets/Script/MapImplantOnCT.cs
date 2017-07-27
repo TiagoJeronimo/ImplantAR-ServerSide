@@ -71,20 +71,19 @@ public class MapImplantOnCT : MonoBehaviour {
                 AxialCursor.transform.localPosition = new Vector3(this.transform.position.x, this.transform.localPosition.y + this.transform.parent.position.y, AxialCursor.transform.localPosition.z);
                 CoronalCursor.transform.localPosition = new Vector3(CoronalCursor.transform.localPosition.x, ModelCoordToImageCoord(this.transform.position.y), CoronalCursor.transform.localPosition.z);
                 SagittalCursor.transform.localPosition = new Vector3(SagittalCursor.transform.localPosition.x, ModelCoordToImageCoord(this.transform.position.y), SagittalCursor.transform.localPosition.z);
-                //                                                                                             ^ModelCoordToImageCoord don't work
 
                 foreach (Transform child in AxialImages.transform) {
                     child.gameObject.SetActive(false);
                 }
 
-                int imageNumber = MapCoordinatesToImage(this.transform.localPosition.z + 90, AxialImages, ImageDimensions.y); //ver este 90
+                int imageNumber = MapCoordinatesToImage(this.transform.localPosition.z, AxialImages, YDimension); //YDimension is the height of the model
                 if (imageNumber > 0 && imageNumber < AxialImages.transform.childCount)
                     AxialImages.transform.GetChild(imageNumber).gameObject.SetActive(true);
             }
 
             AxialImplantWidget.transform.localPosition = new Vector3(this.transform.position.x, this.transform.localPosition.y + this.transform.parent.position.y, AxialCursor.transform.localPosition.z);
-            CoronalImplantWidget.transform.localPosition = new Vector3(this.transform.position.x, this.transform.position.y, CoronalCursor.transform.localPosition.z);
-            SagittalImplantWidget.transform.localPosition = new Vector3(-this.transform.localPosition.y - this.transform.parent.position.y, this.transform.position.y, SagittalCursor.transform.localPosition.z);
+            CoronalImplantWidget.transform.localPosition = new Vector3(this.transform.position.x, ModelCoordToImageCoord(this.transform.position.y), CoronalCursor.transform.localPosition.z);
+            SagittalImplantWidget.transform.localPosition = new Vector3(-this.transform.localPosition.y - this.transform.parent.position.y, ModelCoordToImageCoord(this.transform.position.y), SagittalCursor.transform.localPosition.z);
 
             UpdateCursorPositions = true;
         }
@@ -183,14 +182,16 @@ public class MapImplantOnCT : MonoBehaviour {
     }
 
     private float ModelCoordToImageCoord(float inModelCoord) {
-        //not working
-        float y = (80 * inModelCoord) / YMin; //80=Min das imagens (mudar isto)
+        float y;
+        y = (60 * inModelCoord) / YDimension + 86; 
+        //60 = height of the coronal/sagittal image; 86 = height of the model's padding  
+        //change this numbers
         return y;
     }
 
     private int MapCoordinatesToImage(float coord, GameObject imageType, float imageDimension) { //makes a correlation between coordinates and the corresponding image
         float relation = imageType.transform.childCount / imageDimension;
-        int imageNumber = Mathf.RoundToInt(coord * relation) - 80; //padding from the other type of slices
+        int imageNumber = Mathf.RoundToInt(coord * relation) + 86; //86 = padding from the other type of slices
         return imageNumber;
     }
 
