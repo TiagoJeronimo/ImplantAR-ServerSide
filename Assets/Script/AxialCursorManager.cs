@@ -39,6 +39,8 @@ public class AxialCursorManager : MonoBehaviour {
     private Ray Ray;
     private RaycastHit2D Hit;
 
+    public static int AxialSliceNumber;
+
     void Start() {
         coronalCursorManager = CoronalCursor.GetComponent<CoronalCursorManager>();
         sagittalCursorManager = SagittalCursor.GetComponent<SagittalCursorManager>();
