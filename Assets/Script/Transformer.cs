@@ -17,7 +17,7 @@ public class Transformer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-       /* if (!Rotate.IsRotating) {
+       /*if (!Rotate.IsRotating) {
             this.transform.position = Jaw.transform.position - Server.RelativePosition;
             if(LastPosition == this.transform.position) {
                 this.transform.localPosition = LastLocalPosition;

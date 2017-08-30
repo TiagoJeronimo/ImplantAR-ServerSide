@@ -7,24 +7,36 @@ public class GetHIChildren : MonoBehaviour {
     public GameObject Images;
 
     public GameObject CSGPrefab;
-    public GameObject OtherEx;
-    public GameObject ExamplePref;
+    public GameObject Implant;
+    public GameObject Plan;
+
+    private Vector3 LastPlanPosition;
+    private Vector3 LastImplantPosition;
 
 	// Use this for initialization
-	void Start () {}
+	void Start () {
+        LastPlanPosition = Plan.transform.localPosition;
+        LastImplantPosition = Implant.transform.localPosition;
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        foreach (Transform child in Images.transform) {
+        if(Plan.transform.localPosition != LastPlanPosition || Implant.transform.localPosition != LastImplantPosition) {
+            //Debug.Log("aqui");
+            LastPlanPosition = Plan.transform.localPosition;
+            LastImplantPosition = Implant.transform.localPosition;
+            //CSG_ops.CSG_calculations(Implant, Plan, CSGPrefab, 0);
+        }
+        /*foreach (Transform child in Images.transform) {
             if (child.gameObject.activeSelf) {
                 if (child.CompareTag("HI")) {
-                    CSG_ops.CSG_calculations(OtherEx, ExamplePref, CSGPrefab, 0);
+                    //CSG_ops.CSG_calculations(OtherEx, ExamplePref, CSGPrefab, 0);
                     this.GetComponent<MeshRenderer>().enabled = true;
                     
                 } else {
                     this.GetComponent<MeshRenderer>().enabled = false;
                 }
             }
-        }
+        }*/
     }
 }

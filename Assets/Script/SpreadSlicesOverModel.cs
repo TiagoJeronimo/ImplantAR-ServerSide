@@ -44,7 +44,6 @@ public class SpreadSlicesOverModel : MonoBehaviour {
                     coordPosition = Min + (i * SlicePerUnity);
                 } else if (Sagittal) {
                     coordPosition = this.transform.position.x;
-                    Debug.Log("sagital coorX: " + coordPosition);
                 } else if (Axial) {
                     coordPosition = this.transform.position.y;
                 } else if (Coronal) {
