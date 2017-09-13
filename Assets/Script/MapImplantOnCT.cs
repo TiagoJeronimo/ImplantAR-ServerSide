@@ -69,8 +69,9 @@ public class MapImplantOnCT : MonoBehaviour {
 
             if(ShowImplantOnSlicesFromClient) {
                 AxialCursor.transform.localPosition = new Vector3(this.transform.position.x, this.transform.localPosition.y + this.transform.parent.position.y, AxialCursor.transform.localPosition.z);
-                CoronalCursor.transform.localPosition = new Vector3(CoronalCursor.transform.localPosition.x, ModelCoordToImageCoord(this.transform.position.y), CoronalCursor.transform.localPosition.z);
-                SagittalCursor.transform.localPosition = new Vector3(SagittalCursor.transform.localPosition.x, ModelCoordToImageCoord(this.transform.position.y), SagittalCursor.transform.localPosition.z);
+                if (ModelCoordToImageCoord(this.transform.position.y) < -85 && ModelCoordToImageCoord(this.transform.position.y) > -160) //prevent jitering, #find another solution
+                    CoronalCursor.transform.localPosition = new Vector3(CoronalCursor.transform.localPosition.x, ModelCoordToImageCoord(this.transform.position.y), CoronalCursor.transform.localPosition.z);
+                //SagittalCursor.transform.localPosition = new Vector3(SagittalCursor.transform.localPosition.x, ModelCoordToImageCoord(this.transform.position.y), SagittalCursor.transform.localPosition.z);
 
                 foreach (Transform child in AxialImages.transform) {
                     child.gameObject.SetActive(false);

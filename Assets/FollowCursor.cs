@@ -8,6 +8,8 @@ public class FollowCursor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        this.transform.localPosition = Cursor.transform.localPosition;
-	}
+
+        this.transform.localPosition = new Vector3(this.transform.localPosition.x, Cursor.transform.localPosition.y, this.transform.localPosition.z);  
+
+    }
 }

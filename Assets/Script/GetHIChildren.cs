@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Parabox.CSG;
+
 public class GetHIChildren : MonoBehaviour {
 
     public GameObject Images;
@@ -13,8 +15,11 @@ public class GetHIChildren : MonoBehaviour {
     private Vector3 LastPlanPosition;
     private Vector3 LastImplantPosition;
 
-	// Use this for initialization
-	void Start () {
+    GameObject composite;
+    public Material myMaterial;
+
+    // Use this for initialization
+    void Start () {
         LastPlanPosition = Plan.transform.localPosition;
         LastImplantPosition = Implant.transform.localPosition;
     }
@@ -25,7 +30,7 @@ public class GetHIChildren : MonoBehaviour {
             //Debug.Log("aqui");
             LastPlanPosition = Plan.transform.localPosition;
             LastImplantPosition = Implant.transform.localPosition;
-            //CSG_ops.CSG_calculations(Implant, Plan, CSGPrefab, 0);
+            CSG_ops.CSG_calculations(Implant, Plan, CSGPrefab, 0);
         }
         /*foreach (Transform child in Images.transform) {
             if (child.gameObject.activeSelf) {

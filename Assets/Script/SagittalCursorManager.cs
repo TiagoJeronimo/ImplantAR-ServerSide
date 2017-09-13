@@ -127,8 +127,9 @@ public class SagittalCursorManager : MonoBehaviour {
 
     private void CursorOutOffBoundsNoMouse(Vector3 pos) {
         transform.position = pos;
-        if (transform.localPosition.x >= ImageDimensionsPadding.x && transform.localPosition.x <= ImageDimensions.x + ImageDimensionsPadding.x && transform.localPosition.y <= -ImageDimensionsPadding.y && transform.localPosition.y > -ImageDimensions.y - ImageDimensionsPadding.y) { /**/ } else
+        if (transform.localPosition.x >= ImageDimensionsPadding.x && transform.localPosition.x <= ImageDimensions.x + ImageDimensionsPadding.x && transform.localPosition.y <= -ImageDimensionsPadding.y && transform.localPosition.y > -ImageDimensions.y - ImageDimensionsPadding.y) { /**/ } else {
             transform.position = LastPostion;
+        }
     }
 
     //SLIDER STUFF//
