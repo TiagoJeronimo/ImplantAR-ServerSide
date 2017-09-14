@@ -115,11 +115,11 @@ namespace ConstructiveSolidGeometry
         /// <param name="stack"></param>
         public void build(List<Polygon> polys, int stack = 6000)
         {
-            /*if (stack < 0)
+            if (stack < 0)
             {
                 Debug.LogWarning("Stack overflow prevented");
                 return;
-            }*/
+            }
             if (polys.Count == 0) return;
             if (this.plane == null) this.plane = polys[0].plane.clone();
             List<Polygon> tfront = new List<Polygon>();

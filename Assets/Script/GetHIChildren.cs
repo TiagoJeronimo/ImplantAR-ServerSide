@@ -6,41 +6,21 @@ using Parabox.CSG;
 
 public class GetHIChildren : MonoBehaviour {
 
-    public GameObject Images;
-
     public GameObject CSGPrefab;
-    public GameObject Implant;
-    public GameObject Plan;
 
     private Vector3 LastPlanPosition;
     private Vector3 LastImplantPosition;
 
-    GameObject composite;
-    public Material myMaterial;
-
-    // Use this for initialization
-    void Start () {
-        LastPlanPosition = Plan.transform.localPosition;
-        LastImplantPosition = Implant.transform.position;
+    void Start() {
+        LastPlanPosition = this.transform.position;
+        LastImplantPosition = this.transform.position;
     }
-	
-	// Update is called once per frame
-	void Update () {
-        if(Plan.transform.localPosition != LastPlanPosition || Implant.transform.position != LastImplantPosition) {
-            LastPlanPosition = Plan.transform.localPosition;
-            LastImplantPosition = Implant.transform.localPosition;
-            CSG_ops.CSG_calculations(Implant, Plan, CSGPrefab, 0);
+
+    void OnTriggerStay(Collider other) {
+        if (LastPlanPosition != this.transform.position || LastImplantPosition != other.transform.position) {
+            LastPlanPosition = this.transform.position;
+            LastImplantPosition = other.transform.position;
+            CSG_ops.CSG_calculations(other.gameObject, this.gameObject, CSGPrefab, 0);
         }
-        /*foreach (Transform child in Images.transform) {
-            if (child.gameObject.activeSelf) {
-                if (child.CompareTag("HI")) {
-                    //CSG_ops.CSG_calculations(OtherEx, ExamplePref, CSGPrefab, 0);
-                    this.GetComponent<MeshRenderer>().enabled = true;
-                    
-                } else {
-                    this.GetComponent<MeshRenderer>().enabled = false;
-                }
-            }
-        }*/
     }
 }

@@ -7,6 +7,10 @@ public class FixePos : MonoBehaviour {
     public Transform Implant;
     public Transform Plan;
 
+    public bool Axial;
+    public bool Sagittal;
+    public bool Coronal;
+
     Vector3 LastPlanPosition;
 
     void Start() {
@@ -16,7 +20,8 @@ public class FixePos : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //this.transform.localPosition = Implant.transform.position;
-        this.transform.localPosition = new Vector3(-Implant.transform.position.x, this.transform.localPosition.y, -Implant.transform.position.z); //AXIAL
+        if(Axial) this.transform.localPosition = new Vector3(-Implant.transform.position.x, this.transform.localPosition.y, -Implant.transform.position.z); //AXIAL
+        if(Sagittal) this.transform.localPosition = new Vector3(-Implant.transform.position.x, -Implant.transform.position.y, this.transform.localPosition.z); //SAGITTAL
 
        /* if(LastPlanPosition != Plan.transform.position) {
             LastPlanPosition = Plan.transform.position;
