@@ -21,13 +21,12 @@ public class GetHIChildren : MonoBehaviour {
     // Use this for initialization
     void Start () {
         LastPlanPosition = Plan.transform.localPosition;
-        LastImplantPosition = Implant.transform.localPosition;
+        LastImplantPosition = Implant.transform.position;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if(Plan.transform.localPosition != LastPlanPosition || Implant.transform.localPosition != LastImplantPosition) {
-            //Debug.Log("aqui");
+        if(Plan.transform.localPosition != LastPlanPosition || Implant.transform.position != LastImplantPosition) {
             LastPlanPosition = Plan.transform.localPosition;
             LastImplantPosition = Implant.transform.localPosition;
             CSG_ops.CSG_calculations(Implant, Plan, CSGPrefab, 0);
