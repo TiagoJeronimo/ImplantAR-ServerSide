@@ -5,9 +5,10 @@ using UnityEngine;
 public class FollowObject : MonoBehaviour {
 
     public Transform Target;
+    public float Zoffset = -200.0f;
 	
 	// Update is called once per frame
 	void Update () {
-        this.transform.position = Target.transform.position;
+        this.transform.position = new Vector3 (Target.transform.position.x, Target.transform.position.y, Zoffset);
     }
 }

@@ -21,7 +21,8 @@ public class FixePos : MonoBehaviour {
 	void Update () {
         //this.transform.localPosition = Implant.transform.position;
         if(Axial) this.transform.localPosition = new Vector3(-Implant.transform.position.x, this.transform.localPosition.y, -Implant.transform.position.z); //AXIAL
-        if(Sagittal) this.transform.localPosition = new Vector3(-Implant.transform.position.x, -Implant.transform.position.y, this.transform.localPosition.z); //SAGITTAL
+        if(Sagittal) this.transform.localPosition = new Vector3(this.transform.localPosition.x, -Implant.transform.position.y, -Implant.transform.position.z); //SAGITTAL
+        if (Coronal) this.transform.localPosition = new Vector3(-Implant.transform.position.x, -Implant.transform.position.y, this.transform.localPosition.z); //CORONAL
 
        /* if(LastPlanPosition != Plan.transform.position) {
             LastPlanPosition = Plan.transform.position;
