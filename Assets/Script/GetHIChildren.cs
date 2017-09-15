@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using Parabox.CSG;
-
 public class GetHIChildren : MonoBehaviour {
 
     public GameObject CSGPrefab;
