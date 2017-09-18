@@ -9,7 +9,7 @@ public class Pan : MonoBehaviour {
     public static bool Dragit;
     float DistZ = 0;
 
-    private void OnMouseDown() {
+    /*private void OnMouseDown() {
         if (Input.GetMouseButtonDown(0)) {
             MousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, DistZ);
             InitialPos = Camera.main.ScreenToWorldPoint(MousePosition) - transform.position;
@@ -24,5 +24,5 @@ public class Pan : MonoBehaviour {
     }
     private void OnMouseUp() {
         Dragit = false;
-    }
+    }*/
 }

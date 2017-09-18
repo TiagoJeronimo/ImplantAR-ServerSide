@@ -14,12 +14,17 @@ public class GetHIChildren : MonoBehaviour {
         LastImplantPosition = this.transform.position;
     }
 
+    void Update() {
+
+    }
+
     void OnTriggerStay(Collider other) {
         CSGPrefab.SetActive(true);
         if (LastPlanPosition != this.transform.position || LastImplantPosition != other.transform.position) {
             LastPlanPosition = this.transform.position;
             LastImplantPosition = other.transform.position;
             CSG_ops.CSG_calculations(other.gameObject, this.gameObject, CSGPrefab, 0);
+            CSGPrefab.GetComponent<MeshCollider>().sharedMesh = CSGPrefab.GetComponent<MeshFilter>().sharedMesh;
         }
     }
 
