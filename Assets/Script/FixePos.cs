@@ -28,22 +28,27 @@ public class FixePos : MonoBehaviour {
         if (Input.GetMouseButtonDown(0)) {
             MousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, DistZ);
             InitialPos = Camera.main.ScreenToWorldPoint(MousePosition);
-            ImplantInitialPos = Implant.transform.position; //new Vector3(-Implant.transform.position.x, Implant.transform.position.z, -Implant.transform.position.y);
+            ImplantInitialPos = Implant.transform.position;
         }
         Dragit = true;
     }
     private void OnMouseDrag() {
         MousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, DistZ);
-        Vector3 pos = Camera.main.ScreenToWorldPoint(MousePosition);
+        
         if (Dragit) {
+            Vector3 pos = Camera.main.ScreenToWorldPoint(MousePosition);
+            Vector3 auxPos = pos - InitialPos;
             if (Coronal) {
-                Vector3 auxPos = ImplantInitialPos + (pos - InitialPos);
-                Implant.transform.position = auxPos;
+                Implant.transform.position = ImplantInitialPos + auxPos;
             }
-          /*if(Axial)
-                this.transform.localPosition = new Vector3(pos.x, this.transform.localPosition.y, -pos.y) - new Vector3(InitialPos.x, 0, -InitialPos.y);
-            if(Sagittal)
-                this.transform.localPosition = new Vector3(pos.y, pos.x, this.transform.localPosition.y) - new Vector3(InitialPos.y, InitialPos.x, 0); //nope*/
+            else if (Axial) {
+                Vector3 auxTransf = new Vector3(ImplantInitialPos.x + auxPos.x, ImplantInitialPos.y, ImplantInitialPos.z - auxPos.y);
+                Implant.transform.position = new Vector3(auxTransf.x, Implant.transform.position.y, auxTransf.z);
+            } 
+            else if (Sagittal) {
+                Vector3 auxTransf = new Vector3(ImplantInitialPos.x, ImplantInitialPos.y + auxPos.y, ImplantInitialPos.z + auxPos.x);
+                Implant.transform.position = new Vector3(Implant.transform.position.x, auxTransf.y, auxTransf.z);
+            }
         }
     }
     private void OnMouseUp() {
