@@ -9,20 +9,42 @@ public class Pan : MonoBehaviour {
     public static bool Dragit;
     float DistZ = 0;
 
-    /*private void OnMouseDown() {
-        if (Input.GetMouseButtonDown(0)) {
-            MousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, DistZ);
-            InitialPos = Camera.main.ScreenToWorldPoint(MousePosition) - transform.position;
+    private bool CanPan;
+
+    void Update() {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        
+        if (Physics.Raycast(ray, out hit)) {
+            if (hit.transform.CompareTag("MeshLess")) {
+                CanPan = false;
+            } 
+        } else {
+            CanPan = true;
         }
-        Dragit = true;
+
+    }
+
+    private void OnMouseDown() {
+        if (CanPan) {
+            if (Input.GetMouseButtonDown(0)) {
+                MousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, DistZ);
+                InitialPos = Camera.main.ScreenToWorldPoint(MousePosition) - transform.position;
+            }
+            Dragit = true;
+        }
     }
     private void OnMouseDrag() {
-        MousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, DistZ);
-        Vector3 pos = Camera.main.ScreenToWorldPoint(MousePosition);
-        if (Dragit)
-            transform.position = pos - InitialPos;
+        if (CanPan) {
+            MousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, DistZ);
+            Vector3 pos = Camera.main.ScreenToWorldPoint(MousePosition);
+            if (Dragit)
+                transform.position = pos - InitialPos;
+        }
     }
     private void OnMouseUp() {
-        Dragit = false;
-    }*/
+        if (CanPan) {
+            Dragit = false;
+        }
+    }
 }
