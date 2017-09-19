@@ -21,6 +21,10 @@ public class Server : MonoBehaviour
     public static Vector3 RelativePosition;
     public static Quaternion Rotation;
 
+    private Vector3 LastRelativePosition;
+
+    public bool AllowBroadcastData;
+
     private void Start() {
         clients = new List<ServerClient>();
         disconectedList = new List<ServerClient>();
@@ -65,6 +69,15 @@ public class Server : MonoBehaviour
 
                     if (data != null)
                         OnIncomingData(c, data);
+                }
+                if (AllowBroadcastData) {
+                    Vector3 relativePosition = FindRelativePosition.PositionRelativeToJaw;
+                    if (LastRelativePosition != relativePosition) {
+                        LastRelativePosition = relativePosition;
+                        string message = relativePosition.ToString() + "1";
+                        //Debug.Log("sentMessage: " + message);
+                        Broadcast(message, clients);
+                    }
                 }
             }
         }

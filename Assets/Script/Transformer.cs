@@ -10,14 +10,18 @@ public class Transformer : MonoBehaviour {
     Vector3 LastPosition;
     Vector3 LastLocalPosition;
 
+    Vector3 LastClientRelativePos;
+
     void Start() {
         rotation = transform.rotation;
         Jaw = transform.parent.gameObject;
     }
 	
 	// Update is called once per frame
-	void Update () {
-       /*if (!Rotate.IsRotating) {
+	void FixedUpdate () {
+       if (!Rotate.IsRotating) {
+            Debug.Log("aqui");
+            LastClientRelativePos = Server.RelativePosition;
             this.transform.position = Jaw.transform.position - Server.RelativePosition;
             if(LastPosition == this.transform.position) {
                 this.transform.localPosition = LastLocalPosition;
@@ -26,12 +30,10 @@ public class Transformer : MonoBehaviour {
                 //Debug.Log("entrei"); //continua a entrar aqui!!!
                 LastPosition = this.transform.position;
                 LastLocalPosition = this.transform.localPosition;
-            }
-            
+            }   
             //Debug.Log("- position: " + this.transform.position);
             //Debug.Log("- localPosition: " + this.transform.localPosition);
-        }*/
-
+        }
         //transform.rotation = Server.Rotation;
 	}
 }
