@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class FindRelativePosition : MonoBehaviour {
 
-    public static Vector3 PositionRelativeToJaw;
+   // public static Vector3 PositionRelativeToJaw;
     public GameObject Implant;
 
-    void Update () {
-        PositionRelativeToJaw = this.transform.position - Implant.transform.position;
+    void LateUpdate () {
+        //PositionRelativeToJaw = this.transform.position - Implant.transform.position;
         //Debug.Log("PositonRealativeJAw: " + PositionRelativeToJaw.ToString());
     }
 }

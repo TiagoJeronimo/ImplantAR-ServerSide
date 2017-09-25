@@ -14,10 +14,6 @@ public class GetHIChildren : MonoBehaviour {
         LastImplantPosition = this.transform.position;
     }
 
-    void Update() {
-
-    }
-
     void OnTriggerStay(Collider other) {
         CSGPrefab.SetActive(true);
         if (LastPlanPosition != this.transform.position || LastImplantPosition != other.transform.position) {

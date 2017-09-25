@@ -17,7 +17,6 @@ public class Server : MonoBehaviour
     private bool serverStarted;
 
     public Text LoginText; 
-    public static Vector3 Position;
     public static Vector3 RelativePosition;
     public static Quaternion Rotation;
 
@@ -71,7 +70,7 @@ public class Server : MonoBehaviour
                         OnIncomingData(c, data);
                 }
                 if (AllowBroadcastData) {
-                    Vector3 relativePosition = FindRelativePosition.PositionRelativeToJaw;
+                    Vector3 relativePosition = Transformer.PositionRelativeToJaw;
                     if (LastRelativePosition != relativePosition) {
                         LastRelativePosition = relativePosition;
                         string message = relativePosition.ToString() + "1";
