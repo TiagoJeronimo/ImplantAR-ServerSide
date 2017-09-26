@@ -18,7 +18,7 @@ public class Transformer : MonoBehaviour {
         rotation = transform.rotation;
         Jaw = transform.parent.gameObject;
 
-        InvokeRepeating("UpdateTransform", 2f, 2f);
+        //InvokeRepeating("UpdateTransform", 2f, 2f);
     }
 	
 	// Update is called once per frame

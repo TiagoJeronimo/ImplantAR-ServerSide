@@ -82,9 +82,9 @@ public class MapImplantOnCT : MonoBehaviour {
                     AxialImages.transform.GetChild(imageNumber).gameObject.SetActive(true);
             }
 
-            AxialImplantWidget.transform.localPosition = new Vector3(this.transform.position.x, this.transform.localPosition.y + this.transform.parent.position.y, AxialCursor.transform.localPosition.z);
-            CoronalImplantWidget.transform.localPosition = new Vector3(this.transform.position.x, ModelCoordToImageCoord(this.transform.position.y), CoronalCursor.transform.localPosition.z);
-            SagittalImplantWidget.transform.localPosition = new Vector3(-this.transform.localPosition.y - this.transform.parent.position.y, ModelCoordToImageCoord(this.transform.position.y), SagittalCursor.transform.localPosition.z);
+			AxialImplantWidget.transform.localPosition = new Vector3(this.transform.position.x, this.transform.localPosition.y + this.transform.parent.position.y, 50 + this.transform.localPosition.z);
+			CoronalImplantWidget.transform.localPosition = new Vector3(this.transform.position.x, ModelCoordToImageCoord(this.transform.position.y), 50 - this.transform.localPosition.y);
+			SagittalImplantWidget.transform.localPosition = new Vector3(-this.transform.localPosition.y - this.transform.parent.position.y, ModelCoordToImageCoord(this.transform.position.y), 50 + this.transform.localPosition.x);
 
             UpdateCursorPositions = true;
         }

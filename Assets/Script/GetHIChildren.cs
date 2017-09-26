@@ -19,7 +19,7 @@ public class GetHIChildren : MonoBehaviour {
         if (LastPlanPosition != this.transform.position || LastImplantPosition != other.transform.position) {
             LastPlanPosition = this.transform.position;
             LastImplantPosition = other.transform.position;
-            CSG_ops.CSG_calculations(other.gameObject, this.gameObject, CSGPrefab, 0);
+            //CSG_ops.CSG_calculations(other.gameObject, this.gameObject, CSGPrefab, 0);
             CSGPrefab.GetComponent<MeshCollider>().sharedMesh = CSGPrefab.GetComponent<MeshFilter>().sharedMesh;
         }
     }
