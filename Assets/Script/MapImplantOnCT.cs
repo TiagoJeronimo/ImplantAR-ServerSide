@@ -82,9 +82,15 @@ public class MapImplantOnCT : MonoBehaviour {
                     AxialImages.transform.GetChild(imageNumber).gameObject.SetActive(true);
             }
 
-			AxialImplantWidget.transform.localPosition = new Vector3(this.transform.position.x, this.transform.localPosition.y + this.transform.parent.position.y, 50 + this.transform.localPosition.z);
-			CoronalImplantWidget.transform.localPosition = new Vector3(this.transform.position.x, ModelCoordToImageCoord(this.transform.position.y), 50 - this.transform.localPosition.y);
-			SagittalImplantWidget.transform.localPosition = new Vector3(-this.transform.localPosition.y - this.transform.parent.position.y, ModelCoordToImageCoord(this.transform.position.y), 50 + this.transform.localPosition.x);
+			//AxialImplantWidget.transform.localPosition = new Vector3(this.transform.position.x, this.transform.localPosition.y + this.transform.parent.position.y, 50 + this.transform.localPosition.z);
+			//CoronalImplantWidget.transform.localPosition = new Vector3(this.transform.position.x, ModelCoordToImageCoord(this.transform.position.y), 50 - this.transform.localPosition.y);
+			//SagittalImplantWidget.transform.localPosition = new Vector3(-this.transform.localPosition.y - this.transform.parent.position.y, ModelCoordToImageCoord(this.transform.position.y), 50 + this.transform.localPosition.x);
+
+			//Everything has to be local
+
+			AxialImplantWidget.transform.localPosition = new Vector3 (128 - this.transform.localPosition.x, -128 + this.transform.localPosition.y, 50 + this.transform.localPosition.z);
+			CoronalImplantWidget.transform.localPosition = new Vector3 (128 - this.transform.localPosition.x, -128 - this.transform.localPosition.z, 50 + this.transform.localPosition.y);
+			SagittalImplantWidget.transform.localPosition = new Vector3 (128 - this.transform.localPosition.y, -128 - this.transform.localPosition.z, 50 - this.transform.localPosition.x);
 
             UpdateCursorPositions = true;
         }
