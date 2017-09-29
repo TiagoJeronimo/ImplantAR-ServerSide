@@ -23,10 +23,9 @@ public class Transformer : MonoBehaviour {
 	void FixedUpdate () {
 		if (LastClientRelativePos == Server.RelativePosition) {
 			if (LastPosition != this.transform.position) {
-				LastLocalPosition = this.transform.position;
+				LastLocalPosition = this.transform.localPosition;
 				PositionRelativeToJaw = Jaw.transform.position - this.transform.position;
 			} else {
-				this.transform.position = Jaw.transform.position - Server.RelativePosition;
 				if (LastPosition == this.transform.position) {
 					this.transform.localPosition = LastLocalPosition;
 				} else if (LastPosition != this.transform.position) {
@@ -37,7 +36,7 @@ public class Transformer : MonoBehaviour {
 		} 
 		else if (!Rotate.IsRotating && LastClientRelativePos != Server.RelativePosition) {
 			LastClientRelativePos = Server.RelativePosition;
-            this.transform.position = Jaw.transform.position - Server.RelativePosition;
+			this.transform.localPosition = Jaw.transform.position - Server.RelativePosition;
             if(LastPosition == this.transform.position) {
                 this.transform.localPosition = LastLocalPosition;
             } 
