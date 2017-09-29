@@ -63,15 +63,17 @@ public class Server : MonoBehaviour
                 LoginText.enabled = true;
                 NetworkStream s = c.tcp.GetStream();
                 if(s.DataAvailable) {
+					Debug.Log ("data available");
                     StreamReader reader = new StreamReader(s, true);
                     string data = reader.ReadLine();
 
                     if (data != null)
                         OnIncomingData(c, data);
                 }
-                if (AllowBroadcastData) {
+                else if (AllowBroadcastData) {
                     Vector3 relativePosition = Transformer.PositionRelativeToJaw;
                     if (LastRelativePosition != relativePosition) {
+						Debug.Log ("sending data");
                         LastRelativePosition = relativePosition;
                         string message = relativePosition.ToString() + "1";
                         //Debug.Log("sentMessage: " + message);
@@ -118,13 +120,12 @@ public class Server : MonoBehaviour
 
     private void OnIncomingData(ServerClient c, string data) {
         //All data sent by the client
-        //Debug.Log(c.clientName + "has sent the following message: " + data);
         if (TransformType(data) == 1) //postion
             if (data.StartsWith("(")) RelativePosition = StringToVector3(data);
-        //Position = StringToVector3(data);
+
         /*if (TransformType(data) == 2) //rotation 
             Rotation = StringToQuaternion(data);*/
-        Broadcast(data, clients);
+        //Broadcast(data, clients);
     }
 
     private void Broadcast(string data, List<ServerClient> cl) {

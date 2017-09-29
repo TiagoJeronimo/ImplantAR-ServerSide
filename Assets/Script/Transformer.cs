@@ -17,31 +17,26 @@ public class Transformer : MonoBehaviour {
     void Start() {
         rotation = transform.rotation;
         Jaw = transform.parent.gameObject;
-
-        //InvokeRepeating("UpdateTransform", 2f, 2f);
     }
-	
-	// Update is called once per frame
-	void Update () {
 
-        if(LastPosition != this.transform.position) {
-            LastLocalPosition = this.transform.position;
-            PositionRelativeToJaw = Jaw.transform.position - this.transform.position;
-        } else {
-            this.transform.position = Jaw.transform.position - Server.RelativePosition;
-            if (LastPosition == this.transform.position) {
-                this.transform.localPosition = LastLocalPosition;
-            } else if (LastPosition != this.transform.position) {
-                LastPosition = this.transform.position;
-                LastLocalPosition = this.transform.localPosition;
-            }
-        }
-
-
-
-      /* if (!Rotate.IsRotating && LastClientRelativePos != Server.RelativePosition) {
-            Debug.Log("Client mudou de pos");
-            LastClientRelativePos = Server.RelativePosition;
+	//PROBLEM: CAN ONLY USE LOCALPOSITION
+	void FixedUpdate () {
+		if (LastClientRelativePos == Server.RelativePosition) {
+			if (LastPosition != this.transform.position) {
+				LastLocalPosition = this.transform.position;
+				PositionRelativeToJaw = Jaw.transform.position - this.transform.position;
+			} else {
+				this.transform.position = Jaw.transform.position - Server.RelativePosition;
+				if (LastPosition == this.transform.position) {
+					this.transform.localPosition = LastLocalPosition;
+				} else if (LastPosition != this.transform.position) {
+					LastPosition = this.transform.position;
+					LastLocalPosition = this.transform.localPosition;
+				}
+			}
+		} 
+		else if (!Rotate.IsRotating && LastClientRelativePos != Server.RelativePosition) {
+			LastClientRelativePos = Server.RelativePosition;
             this.transform.position = Jaw.transform.position - Server.RelativePosition;
             if(LastPosition == this.transform.position) {
                 this.transform.localPosition = LastLocalPosition;
@@ -50,9 +45,7 @@ public class Transformer : MonoBehaviour {
                 LastPosition = this.transform.position;
                 LastLocalPosition = this.transform.localPosition;
             }   
-            //Debug.Log("- position: " + this.transform.position);
-            //Debug.Log("- localPosition: " + this.transform.localPosition);
         }
-        //transform.rotation = Server.Rotation;*/
+        //transform.rotation = Server.Rotation;
 	}
 }
