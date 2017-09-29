@@ -36,7 +36,7 @@ public class Transformer : MonoBehaviour {
 		} 
 		else if (!Rotate.IsRotating && LastClientRelativePos != Server.RelativePosition) {
 			LastClientRelativePos = Server.RelativePosition;
-			this.transform.localPosition = Jaw.transform.position - Server.RelativePosition;
+            this.transform.position = Jaw.transform.position - Server.RelativePosition;
             if(LastPosition == this.transform.position) {
                 this.transform.localPosition = LastLocalPosition;
             } 
