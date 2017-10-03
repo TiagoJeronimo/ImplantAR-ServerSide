@@ -18,7 +18,7 @@ public class Server : MonoBehaviour
 
     public Text LoginText; 
     public static Vector3 RelativePosition;
-    public static Quaternion Rotation;
+	public static Vector3 Rotation;
 
     private Vector3 LastRelativePosition;
 
@@ -123,8 +123,10 @@ public class Server : MonoBehaviour
         if (TransformType(data) == 1) //postion
             if (data.StartsWith("(")) RelativePosition = StringToVector3(data);
 
-        /*if (TransformType(data) == 2) //rotation 
-            Rotation = StringToQuaternion(data);*/
+		if (TransformType(data) == 2) {//rotation 
+			Rotation = StringToVector3(data);
+			Debug.Log ("rot: " + Rotation);
+		}
         //Broadcast(data, clients);
     }
 
@@ -147,7 +149,7 @@ public class Server : MonoBehaviour
 
     private Vector3 StringToVector3(string sVector) {
         //Debug.Log("Before string: " + sVector);
-        // Remove the parentheses
+        //Remove the parentheses
         sVector = sVector.Substring(1, sVector.Length - 3);
         // split the items
         string[] sArray = sVector.Split(',');
@@ -165,17 +167,19 @@ public class Server : MonoBehaviour
         // Remove the parentheses
         if (sQuaternion.StartsWith("(")) {
             sQuaternion = sQuaternion.Substring(1, sQuaternion.Length - 3);
+			Debug.Log ("sQ: " + sQuaternion);
         }
         // split the items
         string[] sArray = sQuaternion.Split(',');
 
-        // store as a Vector3
+		// store as a Quaternion
         Quaternion result = new Quaternion(
             float.Parse(sArray[0]),
             float.Parse(sArray[1]),
             float.Parse(sArray[2]), 
             float.Parse(sArray[3]));
 
+		Debug.Log ("Quart: " + result.ToString ());
         return result;
     }
 

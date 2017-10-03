@@ -14,7 +14,7 @@ public class MoveStencilImplant : MonoBehaviour {
 
 	private Vector3 MousePosition;
 	private Vector3 InitialPos;
-	public bool Dragit = false;
+	private bool Dragit = false;
 	private float DistZ = 0;
 
 	private void OnMouseDown() {

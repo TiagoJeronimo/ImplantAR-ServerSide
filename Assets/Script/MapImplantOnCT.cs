@@ -82,18 +82,21 @@ public class MapImplantOnCT : MonoBehaviour {
                     AxialImages.transform.GetChild(imageNumber).gameObject.SetActive(true);
             }
 
-			//AxialImplantWidget.transform.localPosition = new Vector3(this.transform.position.x, this.transform.localPosition.y + this.transform.parent.position.y, 50 + this.transform.localPosition.z);
-			//CoronalImplantWidget.transform.localPosition = new Vector3(this.transform.position.x, ModelCoordToImageCoord(this.transform.position.y), 50 - this.transform.localPosition.y);
-			//SagittalImplantWidget.transform.localPosition = new Vector3(-this.transform.localPosition.y - this.transform.parent.position.y, ModelCoordToImageCoord(this.transform.position.y), 50 + this.transform.localPosition.x);
-
-			//Everything has to be local
-
 			AxialImplantWidget.transform.localPosition = new Vector3 (128 - this.transform.localPosition.x, -128 + this.transform.localPosition.y, 50 + this.transform.localPosition.z);
-			CoronalImplantWidget.transform.localPosition = new Vector3 (128 - this.transform.localPosition.x, -128 - this.transform.localPosition.z, 50 + this.transform.localPosition.y);
+			CoronalImplantWidget.transform.localPosition = new Vector3 (128 - this.transform.localPosition.x, -128 - this.transform.localPosition.z, 50 - this.transform.localPosition.y);
 			SagittalImplantWidget.transform.localPosition = new Vector3 (128 - this.transform.localPosition.y, -128 - this.transform.localPosition.z, 50 - this.transform.localPosition.x);
 
             UpdateCursorPositions = true;
         }
+
+		//Rotation
+		AxialImplantWidget.transform.localEulerAngles = this.transform.localEulerAngles;
+
+		Quaternion auxCoronalRot = new Quaternion(-this.transform.rotation.x, this.transform.rotation.z, -this.transform.rotation.y, this.transform.rotation.w) * Quaternion.Euler(90, 0, 0);
+		CoronalImplantWidget.transform.rotation = auxCoronalRot;
+
+		Quaternion auxSagittalRot = new Quaternion(-this.transform.rotation.y, this.transform.rotation.z, this.transform.rotation.x, this.transform.rotation.w) * Quaternion.Euler(90, 0, 0);
+		SagittalImplantWidget.transform.rotation = auxSagittalRot; 
 
         //know which slices have the implant 
         if (transform.position.x != x) { //SAGITTAL
