@@ -28,7 +28,7 @@ public class CoronalCursorManager : MonoBehaviour {
     //SLIDER STUFF//
     public Slider mainSlider;
     public Text NumberOfSlices;
-    private int DiplayedFileNumber = 1;
+    private int DiplayedFileNumber = 270;
     private int LastMainSliderNumber;
 
     //Limit position stuff
@@ -43,6 +43,15 @@ public class CoronalCursorManager : MonoBehaviour {
     void Start() {
         sagittalCursorManager = SagittalCursor.GetComponent<SagittalCursorManager>();
         axialCursorManager = AxialCursor.GetComponent<AxialCursorManager>();
+
+		//Same code as function SubmitSliderSetting
+		foreach (Transform child in CoronalImages.transform) {
+			child.gameObject.SetActive(false);
+		}
+		CoronalImages.transform.GetChild(DiplayedFileNumber).gameObject.SetActive(true);
+		mainSlider.value = DiplayedFileNumber;
+		MapImageToCoordinate(DiplayedFileNumber, SagittalImages, SagittalCursor, ImageDimensions.x, sagittalCursorManager.ImageDimensionsPadding.x, 0);
+		MapImageToCoordinate(DiplayedFileNumber, AxialImages, AxialCursor, ImageDimensions.y, axialCursorManager.ImageDimensionsPadding.y, 1);
     }
 
     // Update is called once per frame
@@ -59,7 +68,6 @@ public class CoronalCursorManager : MonoBehaviour {
             }
             int sagittalChild = MapCoordinatesToImage(this.transform.localPosition.x, SagittalImages, ImageDimensions.x, ImageDimensionsPadding.x);
             SagittalImages.transform.GetChild(sagittalChild).gameObject.SetActive(true);
-            sagittalCursorManager.UpdateSlide(sagittalChild);
 
             foreach (Transform child in AxialImages.transform) {
                  child.gameObject.SetActive(false);
@@ -67,14 +75,14 @@ public class CoronalCursorManager : MonoBehaviour {
             //Negative 'cause 0 begins above
             int axialChild = MapCoordinatesToImage(-this.transform.localPosition.y, AxialImages, ImageDimensions.y, ImageDimensionsPadding.y);
             AxialImages.transform.GetChild(axialChild).gameObject.SetActive(true);
-            axialCursorManager.UpdateSlide(axialChild);
         }
+
         LastPostion = transform.position;
 
         Ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Hit = Physics2D.Raycast(Ray.origin, Ray.direction);
         if (Hit && Hit.collider.CompareTag("Coronal")) {
-            if (Input.GetAxis("Mouse ScrollWheel") != 0f) {      //not done yet
+            if (Input.GetAxis("Mouse ScrollWheel") != 0f) {
                 ScrollWheelValue += Mathf.RoundToInt(Input.GetAxis("Mouse ScrollWheel") * 100);
                 ScrollWheelValue = Mathf.Clamp(ScrollWheelValue, 0, 600);//prevents value from exceeding specified range
                 mainSlider.value = ScrollWheelValue;
@@ -128,13 +136,6 @@ public class CoronalCursorManager : MonoBehaviour {
     }
 
     //SLIDER STUFF//
-
-    public void UpdateSlide(int sliceNumber) {
-        if (sliceNumber > 0 && sliceNumber < CoronalImages.transform.childCount - 1) {
-            //mainSlider.value = sliceNumber;
-            //NumberOfSlices.text = "S: " + sliceNumber;
-        }
-    }
 
     //Invoked when a submit button is clicked.
     public void SubmitSliderSetting() {

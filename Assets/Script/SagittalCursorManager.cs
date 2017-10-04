@@ -28,7 +28,7 @@ public class SagittalCursorManager : MonoBehaviour {
     //SLIDER STUFF//
     public Slider mainSlider;
     public Text NumberOfSlices;
-    private int DiplayedFileNumber = 1;
+    private int DiplayedFileNumber = 270;
     private int LastMainSliderNumber;
 
     //Limit position stuff
@@ -42,6 +42,16 @@ public class SagittalCursorManager : MonoBehaviour {
     void Start() {
         coronalCursorManager = CoronalCursor.GetComponent<CoronalCursorManager>();
         axialCursorManager = AxialCursor.GetComponent<AxialCursorManager>();
+
+		//Same code as function SubmitSliderSetting
+		foreach (Transform child in SagittalImages.transform) {
+			child.gameObject.SetActive(false);
+		}
+		SagittalImages.transform.GetChild(DiplayedFileNumber).gameObject.SetActive(true);
+		mainSlider.value = DiplayedFileNumber;
+		MapImageToCoordinate(DiplayedFileNumber, CoronalImages, CoronalCursor, ImageDimensions.x, coronalCursorManager.ImageDimensionsPadding.x, 0);
+		MapImageToCoordinate(DiplayedFileNumber, CoronalImages, AxialCursor, ImageDimensions.x, axialCursorManager.ImageDimensionsPadding.x, 0);
+		//CoronalImages (255)? should be AxialImages (166)
     }
 
     // Update is called once per frame
@@ -58,7 +68,6 @@ public class SagittalCursorManager : MonoBehaviour {
             }
             int coronalChild = MapCoordinatesToImage(this.transform.localPosition.x, CoronalImages, ImageDimensions.x, ImageDimensionsPadding.x);
             CoronalImages.transform.GetChild(coronalChild).gameObject.SetActive(true);
-            coronalCursorManager.UpdateSlide(coronalChild);
 
             foreach (Transform child in AxialImages.transform) {
                 child.gameObject.SetActive(false);
@@ -66,7 +75,6 @@ public class SagittalCursorManager : MonoBehaviour {
 
             int axialChild = MapCoordinatesToImage(-this.transform.localPosition.y, AxialImages, ImageDimensions.y, ImageDimensionsPadding.y);
             AxialImages.transform.GetChild(axialChild).gameObject.SetActive(true);
-            axialCursorManager.UpdateSlide(axialChild);
         }
         LastPostion = transform.position;
 
@@ -133,13 +141,6 @@ public class SagittalCursorManager : MonoBehaviour {
     }
 
     //SLIDER STUFF//
-
-    public void UpdateSlide(int sliceNumber) {
-        if (sliceNumber > 0 && sliceNumber < SagittalImages.transform.childCount - 1) {
-            //mainSlider.value = sliceNumber;
-            //NumberOfSlices.text = "S: " + sliceNumber;
-        }
-    }
 
     //Invoked when a submit button is clicked.
     public void SubmitSliderSetting() {

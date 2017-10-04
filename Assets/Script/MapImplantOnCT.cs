@@ -113,7 +113,6 @@ public class MapImplantOnCT : MonoBehaviour {
 
             for (float i = NrImage - ( ConvImplantX / 2 ); i <= NrImage + (ConvImplantX / 2); i++) {
                 i = Mathf.Round(i);
-                SagittalCursor.GetComponent<SagittalCursorManager>().UpdateSlide((int)i);
                 if (NrImage < 10)
                     FileName = "IMG-0003-0000" + i;
                 else if (NrImage < 100)
@@ -143,7 +142,6 @@ public class MapImplantOnCT : MonoBehaviour {
 
             for (float i = NrImage - (ConvImplantY / 2); i <= NrImage + (ConvImplantY / 2); i++) {
                 i = Mathf.Round(i);
-                AxialCursor.GetComponent<AxialCursorManager>().UpdateSlide((int)i);
                 if (NrImage < 10)
                     FileName = "IM-0001-000" + i;
                 else if (NrImage < 100)
@@ -173,7 +171,6 @@ public class MapImplantOnCT : MonoBehaviour {
 
             for (float i = NrImage - (ConvImplantZ / 2); i <= NrImage + (ConvImplantZ / 2); i++) {
                 i = Mathf.Round(i);
-                CoronalCursor.GetComponent<CoronalCursorManager>().UpdateSlide((int)i);
                 if (NrImage < 10)
                     FileName = "IMG-0002-0000" + i;
                 else if (NrImage < 100)

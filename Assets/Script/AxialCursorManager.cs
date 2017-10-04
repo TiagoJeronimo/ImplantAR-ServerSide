@@ -44,6 +44,15 @@ public class AxialCursorManager : MonoBehaviour {
     void Start() {
         coronalCursorManager = CoronalCursor.GetComponent<CoronalCursorManager>();
         sagittalCursorManager = SagittalCursor.GetComponent<SagittalCursorManager>();
+
+		//Same code as function SubmitSliderSetting
+		foreach (Transform child in AxialImages.transform) {
+			child.gameObject.SetActive(false);
+		}
+		AxialImages.transform.GetChild(DiplayedFileNumber).gameObject.SetActive(true);
+		mainSlider.value = DiplayedFileNumber;
+		MapImageToCoordinate(DiplayedFileNumber, CoronalImages, CoronalCursor, ImageDimensions.y, coronalCursorManager.ImageDimensionsPadding.y); // slice image -> coordinates.  SliceNumber, Sl
+		MapImageToCoordinate(DiplayedFileNumber, SagittalImages, SagittalCursor, ImageDimensions.y, sagittalCursorManager.ImageDimensionsPadding.y);
     }
 
     // Update is called once per frame
@@ -60,7 +69,6 @@ public class AxialCursorManager : MonoBehaviour {
             }
             int coronalChild = MapCoordinatesToImage(-this.transform.localPosition.y, CoronalImages, ImageDimensions.y, ImageDimensionsPadding.y);
             CoronalImages.transform.GetChild(coronalChild).gameObject.SetActive(true); //child out of bounds here!! 
-            coronalCursorManager.UpdateSlide(coronalChild);
 
            foreach (Transform child in SagittalImages.transform) {
                 child.gameObject.SetActive(false);
@@ -68,7 +76,6 @@ public class AxialCursorManager : MonoBehaviour {
             //Negative 'cause 0 begins above
             int sagittalChild = MapCoordinatesToImage(this.transform.localPosition.x, SagittalImages, ImageDimensions.x, ImageDimensionsPadding.x);
             SagittalImages.transform.GetChild(sagittalChild).gameObject.SetActive(true);
-            sagittalCursorManager.UpdateSlide(sagittalChild);
         }
         LastPostion = transform.position;
 
@@ -129,13 +136,6 @@ public class AxialCursorManager : MonoBehaviour {
     }
 
     //SLIDER STUFF//
-
-    public void UpdateSlide(int sliceNumber) {
-        if (sliceNumber > 0 && sliceNumber < AxialImages.transform.childCount - 1) {
-            //mainSlider.value = sliceNumber;
-            //NumberOfSlices.text = "S: " + sliceNumber;
-        }
-    }
 
     //Invoked when a submit button is clicked.
     public void SubmitSliderSetting() {
