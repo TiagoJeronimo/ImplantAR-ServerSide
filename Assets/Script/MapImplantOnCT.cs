@@ -41,10 +41,10 @@ public class MapImplantOnCT : MonoBehaviour {
     public GameObject AxialCursor;
     public GameObject CoronalCursor;
     public GameObject SagittalCursor;
-    public GameObject AxialImages;
+    //public GameObject AxialImages;
     public Vector2 ImageDimensions;
 
-    public bool ShowImplantOnSlicesFromClient;
+    //public bool ShowImplantOnSlicesFromClient;
 
     //Implant Widget
     public GameObject CoronalImplantWidget;
@@ -67,7 +67,7 @@ public class MapImplantOnCT : MonoBehaviour {
         UpdateCursorPositions = false;
         if ((transform.position.x != x || transform.position.y != y || transform.position.z != z)) {
 
-            if(ShowImplantOnSlicesFromClient) {
+            /*if(ShowImplantOnSlicesFromClient) {
                 AxialCursor.transform.localPosition = new Vector3(this.transform.position.x, this.transform.localPosition.y + this.transform.parent.position.y, AxialCursor.transform.localPosition.z);
                 if (ModelCoordToImageCoord(this.transform.position.y) < -85 && ModelCoordToImageCoord(this.transform.position.y) > -160) //prevent jitering, #find another solution
                     CoronalCursor.transform.localPosition = new Vector3(CoronalCursor.transform.localPosition.x, ModelCoordToImageCoord(this.transform.position.y), CoronalCursor.transform.localPosition.z);
@@ -80,7 +80,7 @@ public class MapImplantOnCT : MonoBehaviour {
                 int imageNumber = MapCoordinatesToImage(this.transform.localPosition.z, AxialImages, YDimension); //YDimension is the height of the model
                 if (imageNumber > 0 && imageNumber < AxialImages.transform.childCount)
                     AxialImages.transform.GetChild(imageNumber).gameObject.SetActive(true);
-            }
+            }*/
 
 			AxialImplantWidget.transform.localPosition = new Vector3 (128 - this.transform.localPosition.x, -128 + this.transform.localPosition.y, 50 + this.transform.localPosition.z);
 			CoronalImplantWidget.transform.localPosition = new Vector3 (128 - this.transform.localPosition.x, -128 - this.transform.localPosition.z, 50 - this.transform.localPosition.y);
@@ -89,14 +89,12 @@ public class MapImplantOnCT : MonoBehaviour {
             UpdateCursorPositions = true;
         }
 
-		//Rotation
+		//Rotate Widgets like the Implant
 		AxialImplantWidget.transform.localEulerAngles = this.transform.localEulerAngles;
-
-		Quaternion auxCoronalRot = new Quaternion(-this.transform.rotation.x, this.transform.rotation.z, -this.transform.rotation.y, this.transform.rotation.w) * Quaternion.Euler(90, 0, 0);
-		CoronalImplantWidget.transform.rotation = auxCoronalRot;
-
-		Quaternion auxSagittalRot = new Quaternion(-this.transform.rotation.y, this.transform.rotation.z, this.transform.rotation.x, this.transform.rotation.w) * Quaternion.Euler(90, 0, 0);
-		SagittalImplantWidget.transform.rotation = auxSagittalRot; 
+		Quaternion auxCoronalRot = new Quaternion(-this.transform.localRotation.x, this.transform.localRotation.z, this.transform.localRotation.y, this.transform.localRotation.w) * Quaternion.Euler(90, 0, 0);
+		CoronalImplantWidget.transform.localRotation = auxCoronalRot;
+		Quaternion auxSagittalRot = new Quaternion(-this.transform.localRotation.y, this.transform.localRotation.z, this.transform.localRotation.x, this.transform.localRotation.w) * Quaternion.Euler(90, 0, 0);
+		SagittalImplantWidget.transform.localRotation = auxSagittalRot; 
 
         //know which slices have the implant 
         if (transform.position.x != x) { //SAGITTAL

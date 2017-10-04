@@ -14,11 +14,8 @@ public class Rotate : MonoBehaviour {
 
     private void OnMouseDrag() {
 
-        float rotX = Input.GetAxis("Mouse X") * RotSpeed * Mathf.Deg2Rad;
-        float rotY = Input.GetAxis("Mouse Y") * RotSpeed * Mathf.Deg2Rad;
-
-		transform.Rotate(Vector3.back, -rotX, Space.Self);
-        transform.Rotate(Vector3.right, -rotY, Space.Self);
+		transform.Rotate((Input.GetAxis("Mouse Y") * RotSpeed * Time.deltaTime), (Input.GetAxis("Mouse X") * -RotSpeed * Time.deltaTime), 0, Space.World);
+	
     }
 
     private void OnMouseUp() {
