@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MoveStencilImplant : MonoBehaviour {
 
+    public Camera Camera;
+
 	public Transform Implant;
 
 	public bool Axial;
@@ -20,8 +22,8 @@ public class MoveStencilImplant : MonoBehaviour {
 	private void OnMouseDown() {
 		if (Input.GetMouseButtonDown(0)) {
 			MousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, DistZ);
-			InitialPos = Camera.main.ScreenToWorldPoint(MousePosition);
-			ImplantInitialPos = Implant.transform.localPosition;
+			InitialPos = Camera.ScreenToWorldPoint(MousePosition);
+            ImplantInitialPos = Implant.transform.localPosition;
 		}
 		Dragit = true;
 	}
@@ -30,14 +32,14 @@ public class MoveStencilImplant : MonoBehaviour {
 		MousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, DistZ);
 
 		if (Dragit) {
-			Vector3 pos = Camera.main.ScreenToWorldPoint(MousePosition);
+            Vector3 pos = Camera.ScreenToWorldPoint(MousePosition);
 			Vector3 auxPos = pos - InitialPos;
 			if (Coronal) {
-				Vector3 axuTransf = new Vector3(ImplantInitialPos.x - auxPos.x, Implant.transform.localPosition.y, ImplantInitialPos.z - auxPos.y);
+				Vector3 axuTransf = new Vector3(ImplantInitialPos.x + auxPos.x, Implant.transform.localPosition.y, ImplantInitialPos.z - auxPos.y);
 				Implant.transform.localPosition = new Vector3 (axuTransf.x, Implant.transform.localPosition.y, axuTransf.z);
-			}
+            }
 			else if (Axial) {
-				Vector3 auxTransf = new Vector3(ImplantInitialPos.x - auxPos.x, ImplantInitialPos.y + auxPos.y, Implant.transform.localPosition.z);
+				Vector3 auxTransf = new Vector3(ImplantInitialPos.x + auxPos.x, ImplantInitialPos.y + auxPos.y, Implant.transform.localPosition.z);
 				Implant.transform.localPosition = new Vector3(auxTransf.x, auxTransf.y, Implant.transform.localPosition.z);
 			} 
 			else if (Sagittal) {

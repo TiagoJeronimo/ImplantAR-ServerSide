@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class SagittalCursorManager : MonoBehaviour {
 
+    public Camera Camera;
+
     public GameObject AxialCursor;
     public GameObject CoronalCursor;
 
@@ -78,7 +80,7 @@ public class SagittalCursorManager : MonoBehaviour {
         }
         LastPostion = transform.position;
 
-        Ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray = Camera.ScreenPointToRay(Input.mousePosition);
         Hit = Physics2D.Raycast(Ray.origin, Ray.direction);
         if (Hit && Hit.collider.CompareTag("Sagittal")) {
             if (Input.GetAxis("Mouse ScrollWheel") != 0f) {      //not done yet

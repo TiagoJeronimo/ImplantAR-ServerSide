@@ -4,21 +4,25 @@ using UnityEngine;
 
 public class Pan : MonoBehaviour {
 
+    public Camera Camera;
+
     private Vector3 MousePosition;
     private Vector3 InitialPos;
-    public bool Dragit;
+    private bool Dragit;
     float DistZ = 0;
 
     private bool CanPan;
 
     void Update() {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         
         if (Physics.Raycast(ray, out hit)) {
             if (hit.transform.CompareTag("MeshLess")) {
                 CanPan = false;
-            } 
+            } else {
+                CanPan = true;
+            }
         } else {
             CanPan = true;
         }
@@ -29,7 +33,7 @@ public class Pan : MonoBehaviour {
         if (CanPan) {
             if (Input.GetMouseButtonDown(0)) {
                 MousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, DistZ);
-                InitialPos = Camera.main.ScreenToWorldPoint(MousePosition) - transform.position;
+                InitialPos = Camera.ScreenToWorldPoint(MousePosition) - transform.position;
             }
             Dragit = true;
         }
@@ -37,7 +41,7 @@ public class Pan : MonoBehaviour {
     private void OnMouseDrag() {
         if (CanPan) {
             MousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, DistZ);
-            Vector3 pos = Camera.main.ScreenToWorldPoint(MousePosition);
+            Vector3 pos = Camera.ScreenToWorldPoint(MousePosition);
             if (Dragit)
                 transform.position = pos - InitialPos;
         }

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class CoronalCursorManager : MonoBehaviour {
 
+    public Camera Camera;
+
     public GameObject AxialCursor;
     public GameObject SagittalCursor;
 
@@ -79,7 +81,7 @@ public class CoronalCursorManager : MonoBehaviour {
 
         LastPostion = transform.position;
 
-        Ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray = Camera.ScreenPointToRay(Input.mousePosition);
         Hit = Physics2D.Raycast(Ray.origin, Ray.direction);
         if (Hit && Hit.collider.CompareTag("Coronal")) {
             if (Input.GetAxis("Mouse ScrollWheel") != 0f) {
