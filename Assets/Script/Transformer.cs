@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Transformer : MonoBehaviour {
 
-    GameObject Jaw;
-    Quaternion rotation;
-
     Vector3 LastPosition;
     Vector3 LastLocalPosition;
 
@@ -17,18 +14,14 @@ public class Transformer : MonoBehaviour {
     public static Vector3 PositionRelativeToJaw;
 
     void Start() {
-        rotation = transform.rotation;
-        Jaw = transform.parent.gameObject;
 		LastRotation = Server.Rotation;
     }
 
-	//PROBLEM: CAN ONLY USE LOCALPOSITION
 	void FixedUpdate () {
 
 		if (LastClientRelativePos == Server.RelativePosition) {
 			if (LastPosition != this.transform.position) {
 				LastLocalPosition = this.transform.localPosition;
-				//PositionRelativeToJaw = Jaw.transform.position - this.transform.position;
 				PositionRelativeToJaw = this.transform.localPosition;
 			} else {
 				if (LastPosition == this.transform.position) {
@@ -55,8 +48,8 @@ public class Transformer : MonoBehaviour {
 		}
 	}
 
-	void OnGUI() {
+	/*void OnGUI() {
 		GUI.Label(new Rect(10, 40, 1000, 20), "pos: " + this.transform.position);
 		GUI.Label(new Rect(10, 60, 1000, 20), "localPos: " + this.transform.localPosition);
-	}
+	}*/
 }

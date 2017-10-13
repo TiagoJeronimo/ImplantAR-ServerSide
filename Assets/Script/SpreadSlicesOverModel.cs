@@ -4,20 +4,18 @@ using UnityEngine;
 
 public class SpreadSlicesOverModel : MonoBehaviour {
 
-    public Vector3 ModelDimensions;
     public bool Sagittal; //Whith coord are we changing
     public bool Axial;
 	public bool Coronal;
     private Vector3 AxialInitialPosition;
-	private Vector3 CoronalInitialPosition;
-	private Vector3 SagittalInitialPosition;
-
-	public Transform SagittalWidgetTransform;
-	public Transform CoronalWidgetTransform;
+    private Vector3 SagittalInitialPosition;
+    private Vector3 CoronalInitialPosition;
 
     public GameObject AxialImages;
 	public GameObject CoronalImages;
 	public GameObject SagittalImages;
+
+    public GameObject Implant;
 
 
     private float Min;
@@ -26,24 +24,26 @@ public class SpreadSlicesOverModel : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        Vector3 ModelDimensions = Implant.GetComponent<BoxCollider>().bounds.size * 3;
+
         if (Sagittal) {
-			SagittalInitialPosition = this.transform.localPosition;
-			SlicePerUnity = ModelDimensions.x / SagittalImages.transform.childCount;
+            SagittalInitialPosition = this.transform.localPosition;
+            SlicePerUnity = ModelDimensions.x / SagittalImages.transform.childCount;
             Min = ModelDimensions.x / 2;
         } else if(Axial) {
             AxialInitialPosition = this.transform.localPosition;
 			SlicePerUnity = ModelDimensions.z / AxialImages.transform.childCount;
             Min = ModelDimensions.z / 2;
         } else if(Coronal) {
-			CoronalInitialPosition = this.transform.localPosition;
+            CoronalInitialPosition = this.transform.localPosition;
 			SlicePerUnity = ModelDimensions.y / CoronalImages.transform.childCount;
             Min = ModelDimensions.y / 2;
         }
     }
 	
 	// Update is called once per frame
-	void Update () {
-        MovePlane();
+	void FixedUpdate () {
+        this.transform.localPosition = new Vector3(this.transform.localPosition.x, this.transform.localPosition.y, GetCoordPosition());
     }
 
     private float GetCoordPosition() {
@@ -64,17 +64,11 @@ public class SpreadSlicesOverModel : MonoBehaviour {
                 if (LastSlice != i) {
                     LastSlice = i;
 					if (Sagittal) {
-						coordPosition = SagittalWidgetTransform.localPosition.z - Min + (i * SlicePerUnity);
-						//don't work with rotations
-						/*if (coordPosition >= SagittalWidgetTransform.localPosition.z)
-							coordPosition = SagittalWidgetTransform.localPosition.z + Min - (i * SlicePerUnity);*/
+						coordPosition = SagittalInitialPosition.z - Min + (i * SlicePerUnity);
 					} else if (Axial) {
 						coordPosition = AxialInitialPosition.z - Min + (i * SlicePerUnity);
 					} else if (Coronal) {
-						coordPosition = CoronalWidgetTransform.localPosition.z - Min + (i * SlicePerUnity);
-						//don't work with rotations
-						/*if (coordPosition >= CoronalWidgetTransform.localPosition.z)
-							coordPosition = CoronalWidgetTransform.localPosition.z + Min - (i * SlicePerUnity);*/
+						coordPosition = CoronalInitialPosition.z - Min + (i * SlicePerUnity);
 					}
                 } else if (Sagittal) {
                     coordPosition = this.transform.localPosition.z;
@@ -86,9 +80,5 @@ public class SpreadSlicesOverModel : MonoBehaviour {
             } 
         }
         return coordPosition;
-    }
-
-    private void MovePlane() {
-		this.transform.localPosition = new Vector3(this.transform.localPosition.x, this.transform.localPosition.y, GetCoordPosition());
     }
 }
