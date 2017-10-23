@@ -15,6 +15,7 @@ public class Server : MonoBehaviour
     public int port = 6321;
     private TcpListener server;
     private bool serverStarted;
+	private bool LoginTextDisable = false;
 
     public Text LoginText; 
     public static Vector3 RelativePosition;
@@ -60,7 +61,11 @@ public class Server : MonoBehaviour
             }
             //check for message from the client
             else {
-                LoginText.enabled = true;
+				if (!LoginTextDisable) {
+					LoginTextDisable = true;
+					LoginText.enabled = true;
+					Invoke ("HideLoginText", 3);
+				}
                 NetworkStream s = c.tcp.GetStream();
                 if(s.DataAvailable) {
 					Debug.Log ("data available");
@@ -182,6 +187,10 @@ public class Server : MonoBehaviour
 		Debug.Log ("Quart: " + result.ToString ());
         return result;
     }
+
+	void HideLoginText() {
+		LoginText.enabled = false;
+	}
 
 }
 
