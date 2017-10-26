@@ -62,7 +62,7 @@ public class AxialCursorManager : MonoBehaviour {
         if(this.transform.position != LastPostion)
             CursorOutOffBoundsNoMouse(this.transform.position);
 
-        if (Dragit || MapImplantOnCT.UpdateCursorPositions) {
+        if (Dragit) {
             CoronalCursor.transform.localPosition = new Vector3(this.transform.localPosition.x, CoronalCursor.transform.localPosition.y, CoronalCursor.transform.localPosition.z);
             SagittalCursor.transform.localPosition = new Vector3(-this.transform.localPosition.y, CoronalCursor.transform.localPosition.y, SagittalCursor.transform.localPosition.z);
 

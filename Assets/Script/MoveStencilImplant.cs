@@ -34,7 +34,7 @@ public class MoveStencilImplant : MonoBehaviour {
 
 	private void OnMouseDrag() {
         if (!IsSliding) {
-            MousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, DistZ);
+			MousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, DistZ);
 
             if (Dragit) {
                 Vector3 pos = Camera.ScreenToWorldPoint(MousePosition);

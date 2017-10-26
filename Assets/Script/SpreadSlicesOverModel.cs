@@ -4,19 +4,13 @@ using UnityEngine;
 
 public class SpreadSlicesOverModel : MonoBehaviour {
 
-    public bool Sagittal; //Whith coord are we changing
+    public bool Sagittal;
     public bool Axial;
 	public bool Coronal;
-    private Vector3 AxialInitialPosition;
-    private Vector3 SagittalInitialPosition;
-    private Vector3 CoronalInitialPosition;
+	public GameObject Images;
+	public GameObject Implant;
 
-    public GameObject AxialImages;
-	public GameObject CoronalImages;
-	public GameObject SagittalImages;
-
-    public GameObject Implant;
-
+    private Vector3 InitialPosition;
 
     private float Min;
     private float SlicePerUnity;
@@ -27,16 +21,16 @@ public class SpreadSlicesOverModel : MonoBehaviour {
         Vector3 ModelDimensions = Implant.GetComponent<BoxCollider>().bounds.size * 3;
 
         if (Sagittal) {
-            SagittalInitialPosition = this.transform.localPosition;
-            SlicePerUnity = ModelDimensions.x / SagittalImages.transform.childCount;
+			InitialPosition = this.transform.localPosition;
+			SlicePerUnity = ModelDimensions.x / Images.transform.childCount;
             Min = ModelDimensions.x / 2;
         } else if(Axial) {
-            AxialInitialPosition = this.transform.localPosition;
-			SlicePerUnity = ModelDimensions.z / AxialImages.transform.childCount;
+			InitialPosition = this.transform.localPosition;
+			SlicePerUnity = ModelDimensions.z / Images.transform.childCount;
             Min = ModelDimensions.z / 2;
         } else if(Coronal) {
-            CoronalInitialPosition = this.transform.localPosition;
-			SlicePerUnity = ModelDimensions.y / CoronalImages.transform.childCount;
+			InitialPosition = this.transform.localPosition;
+			SlicePerUnity = ModelDimensions.y / Images.transform.childCount;
             Min = ModelDimensions.y / 2;
         }
     }
@@ -49,26 +43,16 @@ public class SpreadSlicesOverModel : MonoBehaviour {
     private float GetCoordPosition() {
         float coordPosition = 0.0f;
 
-		GameObject Images;
-
-		if (Sagittal) {
-			Images = SagittalImages;
-		} else if (Coronal) {
-			Images = CoronalImages;
-		} else {
-			Images = AxialImages;
-		}
-
-        for(int i = 0; i < Images.transform.childCount; i++) {
+        for(int i = 1; i < Images.transform.childCount; i++) {
             if (Images.transform.GetChild(i).gameObject.activeSelf) {
                 if (LastSlice != i) {
                     LastSlice = i;
 					if (Sagittal) {
-						coordPosition = SagittalInitialPosition.z - Min + (i * SlicePerUnity);
+						coordPosition = InitialPosition.z - Min + (i * SlicePerUnity);
 					} else if (Axial) {
-						coordPosition = AxialInitialPosition.z - Min + (i * SlicePerUnity);
+						coordPosition = InitialPosition.z - Min + (i * SlicePerUnity);
 					} else if (Coronal) {
-						coordPosition = CoronalInitialPosition.z - Min + (i * SlicePerUnity);
+						coordPosition = InitialPosition.z - Min + (i * SlicePerUnity);
 					}
                 } else if (Sagittal) {
                     coordPosition = this.transform.localPosition.z;
