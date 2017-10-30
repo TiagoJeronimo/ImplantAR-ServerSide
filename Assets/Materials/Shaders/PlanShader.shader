@@ -1,6 +1,7 @@
 Shader "PlanShader" {
     SubShader {
         Tags {"Queue"="Overlay"}
+        //ZTest Always Cull Off ZWrite Off
         ColorMask 0
         Pass {
             Stencil {

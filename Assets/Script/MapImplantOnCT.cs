@@ -13,8 +13,8 @@ public class MapImplantOnCT : MonoBehaviour {
 	void Update () {
 
 		//Move Widgets
-		AxialImplantWidget.transform.localPosition = new Vector3 (this.transform.localPosition.x, this.transform.localPosition.y, 50 + this.transform.localPosition.z);
-		CoronalImplantWidget.transform.localPosition = new Vector3 (this.transform.localPosition.x, -this.transform.localPosition.z, 50 - this.transform.localPosition.y);
+		AxialImplantWidget.transform.localPosition = new Vector3 (this.transform.localPosition.x, this.transform.localPosition.y, -50 + this.transform.localPosition.z);
+		CoronalImplantWidget.transform.localPosition = new Vector3 (this.transform.localPosition.x, -this.transform.localPosition.z, -50 - this.transform.localPosition.y);
 		SagittalImplantWidget.transform.localPosition = new Vector3 (-this.transform.localPosition.y, -this.transform.localPosition.z, 50 - this.transform.localPosition.x);
 
 		//Rotate Widgets

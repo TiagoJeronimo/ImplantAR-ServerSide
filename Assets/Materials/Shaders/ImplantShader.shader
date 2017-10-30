@@ -1,14 +1,15 @@
 Shader "ImplantShader" {
     SubShader {
         Tags {"Queue"="Overlay+1"}
-        Pass {
+	        Pass {
+	                    
             Stencil {
                 Ref 2
                 Comp Equal
                 Pass keep
                 ZFail decrWrap
             }
-        
+        //ZTest GEQUAL
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
