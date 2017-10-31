@@ -5,17 +5,27 @@ using UnityEngine;
 public class MapImplantOnCT : MonoBehaviour {
 
     //Implant Widget
+    public GameObject AxialImplantWidget;
     public GameObject CoronalImplantWidget;
     public GameObject SagittalImplantWidget;
-    public GameObject AxialImplantWidget;
+
+    private float AxialInitialZ;
+    private float CoronalInitialZ;
+    private float SagittalInitialZ;
+
+    void Start() {
+        AxialInitialZ = AxialImplantWidget.transform.localPosition.z;
+        CoronalInitialZ = CoronalImplantWidget.transform.localPosition.z;
+        SagittalInitialZ = SagittalImplantWidget.transform.localPosition.z;
+    }
 
 	// Update is called once per frame
 	void Update () {
 
 		//Move Widgets
-		AxialImplantWidget.transform.localPosition = new Vector3 (this.transform.localPosition.x, this.transform.localPosition.y, -50 + this.transform.localPosition.z);
-		CoronalImplantWidget.transform.localPosition = new Vector3 (this.transform.localPosition.x, -this.transform.localPosition.z, -50 - this.transform.localPosition.y);
-		SagittalImplantWidget.transform.localPosition = new Vector3 (-this.transform.localPosition.y, -this.transform.localPosition.z, 50 - this.transform.localPosition.x);
+		AxialImplantWidget.transform.localPosition = new Vector3 (this.transform.localPosition.x, this.transform.localPosition.y, AxialInitialZ + this.transform.localPosition.z);
+		CoronalImplantWidget.transform.localPosition = new Vector3 (this.transform.localPosition.x, -this.transform.localPosition.z, CoronalInitialZ - this.transform.localPosition.y);
+		SagittalImplantWidget.transform.localPosition = new Vector3 (-this.transform.localPosition.y, -this.transform.localPosition.z, SagittalInitialZ - this.transform.localPosition.x);
 
 		//Rotate Widgets
 		AxialImplantWidget.transform.localEulerAngles = this.transform.localEulerAngles;

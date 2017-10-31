@@ -140,14 +140,14 @@ public class AxialCursorManager : MonoBehaviour {
     //SLIDER STUFF//
 
     //Invoked when a submit button is clicked.
-    public void SubmitSliderSetting() {
+   /* private void SubmitSliderSetting() {
         foreach (Transform child in AxialImages.transform) {
             child.gameObject.SetActive(false);
         }
         AxialImages.transform.GetChild(DiplayedFileNumber).gameObject.SetActive(true);
         MapImageToCoordinate(DiplayedFileNumber, CoronalImages, CoronalCursor, ImageDimensions.y, coronalCursorManager.ImageDimensionsPadding.y); // slice image -> coordinates.  SliceNumber, Sl
         MapImageToCoordinate(DiplayedFileNumber, SagittalImages, SagittalCursor, ImageDimensions.y, sagittalCursorManager.ImageDimensionsPadding.y);
-    }
+    }*/
 
     //slice image -> coordinates. Rec: SliceNumber, what kind of slice we want to know the coordinates, cursor we want to know the coord, 
     //this image dimension, the padding of the slice we want to know the coordinates of
