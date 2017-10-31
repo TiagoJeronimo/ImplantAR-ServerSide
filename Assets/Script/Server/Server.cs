@@ -130,7 +130,6 @@ public class Server : MonoBehaviour
 
 		if (TransformType(data) == 2) {//rotation 
 			Rotation = StringToVector3(data);
-			Debug.Log ("rot: " + Rotation);
 		}
         //Broadcast(data, clients);
     }
