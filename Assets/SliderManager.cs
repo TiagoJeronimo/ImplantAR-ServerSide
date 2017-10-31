@@ -7,11 +7,11 @@ public class SliderManager : MonoBehaviour {
 
     public Camera Camera;
 
-    //SLIDER STUFF//
+    //SLIDER
     public Slider mainSlider;
     public int DiplayedFileNumber = 1;
 
-    //MOUSE SCROLL stuff
+    //MOUSE SCROLL
     private int ScrollWheelValue = 0;
     private Ray Ray;
     private RaycastHit2D Hit;

@@ -11,7 +11,6 @@ public class SpreadSlicesOverModel : MonoBehaviour {
 	public GameObject Implant;
 
     private Vector3 InitialPosition;
-
     private float Min;
     private float SlicePerUnity;
     private int LastSlice;

@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class Transformer : MonoBehaviour {
 
-    Vector3 LastPosition;
-    Vector3 LastLocalPosition;
-
-	Vector3 LastRotation;
-
-    Vector3 LastClientRelativePos;
+    private Vector3 LastPosition;
+    private Vector3 LastLocalPosition;
+    private Vector3 LastRotation;
+    private Vector3 LastClientRelativePos;
 
     public static Vector3 PositionRelativeToJaw;
 

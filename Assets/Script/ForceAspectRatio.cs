@@ -1,24 +1,34 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ForceAspectRatio : MonoBehaviour {
 
-	private int lastWidth = Screen.width;
+	private int LastWidth = Screen.width;
+    private bool IsReseting = false;
 
-	void Start()
+    void Start()
 	{
 		Screen.SetResolution(750, 750, false);
 	}
-	void Update()
-	{
-		if (Screen.width != lastWidth) {
-			// user is resizing width
-			Screen.SetResolution(Screen.width, Screen.width, false);
-			lastWidth = Screen.width;
-		} else {
-			// user is resizing height
-			Screen.SetResolution(Screen.height, Screen.height, false);
-		}
-	}
+
+    void LateUpdate() {
+        if (!IsReseting) {
+            if (Screen.width != LastWidth) {
+                // user is resizing width
+                StartCoroutine(SetResolution());
+                LastWidth = Screen.width;
+            } else {
+                // user is resizing height
+                StartCoroutine(SetResolution());
+            }
+        }
+    }
+
+    IEnumerator SetResolution() {
+        IsReseting = true;
+        Screen.fullScreen = !Screen.fullScreen;
+        Screen.SetResolution(Screen.width, Screen.width, false);
+        yield return new WaitForSeconds(0.5F);
+        IsReseting = false;
+    }
 }

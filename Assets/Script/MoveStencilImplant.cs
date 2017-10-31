@@ -5,26 +5,21 @@ using UnityEngine;
 public class MoveStencilImplant : MonoBehaviour {
 
     public Camera Camera;
-
 	public Transform Implant;
-
 	public bool Axial;
 	public bool Sagittal;
 	public bool Coronal;
 
 	private Vector3 ImplantInitialPos;
-
 	private Vector3 MousePosition;
 	private Vector3 InitialPos;
 	private bool Dragit = false;
-	private float DistZ = 0;
-
     private bool IsSliding;
 
     private void OnMouseDown() {
         if (!IsSliding) {
             if (Input.GetMouseButtonDown(0)) {
-                MousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, DistZ);
+                MousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
                 InitialPos = Camera.ScreenToWorldPoint(MousePosition);
                 ImplantInitialPos = Implant.transform.localPosition;
             }
@@ -34,7 +29,7 @@ public class MoveStencilImplant : MonoBehaviour {
 
 	private void OnMouseDrag() {
         if (!IsSliding) {
-			MousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, DistZ);
+			MousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
 
             if (Dragit) {
                 Vector3 pos = Camera.ScreenToWorldPoint(MousePosition);
