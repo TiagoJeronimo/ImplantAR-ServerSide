@@ -1,16 +1,22 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "CrossSection/Others/DoubleFaceUnlit"
+Shader "CrossSection/Others/StencilledUnlitTexture"
 {
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
+		_StencilMask("Stencil Mask", Range(0, 255)) = 255
 	}
 	SubShader
 	{
-		Tags { "RenderType"="Opaque" "Queue"="Transparent"}
+		Tags { "RenderType"="Transparent" "Queue" = "Transparent" }
 		LOD 100
-		Cull Off
+		ZTest On
+		//Cull Off
+		Stencil{
+			Ref [_StencilMask]
+			Comp Equal
+		}
 		Pass
 		{
 			CGPROGRAM

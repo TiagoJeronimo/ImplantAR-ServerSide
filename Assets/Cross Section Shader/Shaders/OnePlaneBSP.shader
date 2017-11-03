@@ -8,6 +8,7 @@
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
+		ColorMask 0
 		//LOD 200
 		Stencil
 		{
