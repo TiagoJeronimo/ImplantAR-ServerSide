@@ -5,11 +5,9 @@ using UnityEngine;
 public class Transform3DView : MonoBehaviour {
 
     //Zoom
-    public float ZoomValue = 10;
-    public float Smooth = 5;
-    private bool IsZoomed = false;
-    private float ZCameraInitialPos;
-    private float ZTransformPos;
+    private float ZoomAmount = 0;
+    public float MaxToZoom = 1;
+    public float ScrollSpeed = 10;
 
     //Rot
     public float RotSpeed = 6.0f;
@@ -22,37 +20,29 @@ public class Transform3DView : MonoBehaviour {
 
     public Camera Camera;
 
-    void Start() {
-        ZCameraInitialPos = Camera.transform.localPosition.z;
-        ZTransformPos = Camera.transform.localPosition.z + ZoomValue;
-    }
-
     void Update() {
-
-        if (IsZoomed) {
-            Camera.transform.localPosition = new Vector3(Camera.transform.localPosition.x, Camera.transform.localPosition.y, Mathf.Lerp(Camera.transform.localPosition.z, ZTransformPos, Time.deltaTime * Smooth));
-        } else {
-            Camera.transform.localPosition = new Vector3(Camera.transform.localPosition.x, Camera.transform.localPosition.y, Mathf.Lerp(Camera.transform.localPosition.z, ZCameraInitialPos, Time.deltaTime * Smooth));
-        }
 
         if (Input.GetMouseButtonUp(1)) {
             IsRotating = false;
         }
 
         if (IsRotating) {
-            transform.Rotate((Input.GetAxis("Mouse Y") * RotSpeed * Time.deltaTime), (Input.GetAxis("Mouse X") * -RotSpeed * Time.deltaTime), 0, Space.World);
+            transform.GetChild(0).Rotate((Input.GetAxis("Mouse Y") * RotSpeed * Time.deltaTime), (Input.GetAxis("Mouse X") * -RotSpeed * Time.deltaTime), 0, Space.World);
         }
 
     }
 
     private void OnMouseOver() {
+        Debug.Log("over");
         if (Input.GetMouseButtonDown(1)) {
             IsRotating = true;
         }
 
-        if (Input.GetMouseButtonDown(2)) {
-            IsZoomed = !IsZoomed;
-        }
+                //Zoom
+        ZoomAmount += Input.GetAxis("Mouse ScrollWheel");
+        ZoomAmount = Mathf.Clamp(ZoomAmount, -MaxToZoom, MaxToZoom);
+        float translate = Mathf.Min(Mathf.Abs(Input.GetAxis("Mouse ScrollWheel")), MaxToZoom - Mathf.Abs(ZoomAmount));
+        Camera.transform.Translate(0, 0, translate * ScrollSpeed * Mathf.Sign(Input.GetAxis("Mouse ScrollWheel")));
     }
 
     private void OnMouseDown() {

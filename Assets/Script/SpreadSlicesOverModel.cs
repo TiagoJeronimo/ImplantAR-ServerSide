@@ -18,6 +18,7 @@ public class SpreadSlicesOverModel : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         Vector3 ModelDimensions = Implant.GetComponent<BoxCollider>().bounds.size * 3;
+        Implant.GetComponent<BoxCollider>().enabled = false;
 
         if (Sagittal) {
 			InitialPosition = this.transform.localPosition;
