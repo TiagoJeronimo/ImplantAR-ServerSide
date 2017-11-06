@@ -21,7 +21,7 @@ public class Zoom : MonoBehaviour {
 	}
 
     private void OnMouseOver() {
-        if (Input.GetMouseButtonDown(1)) {
+        if (Input.GetMouseButtonDown(2)) {
             IsZoomed = !IsZoomed;
         }
     }
