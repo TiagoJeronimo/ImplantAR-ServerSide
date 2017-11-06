@@ -29,7 +29,7 @@ public class Transformer : MonoBehaviour {
 					LastLocalPosition = this.transform.localPosition;
 				}
 			}
-		} else if (!Rotate.IsRotating && LastClientRelativePos != Server.RelativePosition) {
+		} else if (!Transform3DView.IsRotating && LastClientRelativePos != Server.RelativePosition) {
 			LastClientRelativePos = Server.RelativePosition;
 			this.transform.localPosition = Server.RelativePosition;
 			if (LastPosition == this.transform.position) {
