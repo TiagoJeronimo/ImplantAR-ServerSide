@@ -26,17 +26,14 @@ public class SpreadSlicesOverModel : MonoBehaviour {
 			InitialPosition = this.transform.localPosition;
 			SlicePerUnity = ModelDimensions.x / Images.transform.childCount;
             Min = ModelDimensions.x / 2;
-            Debug.Log("Sagittal ModelDimensions.x : " + ModelDimensions.x);
         } else if(Axial) {
 			InitialPosition = this.transform.localPosition;
 			SlicePerUnity = ModelDimensions.z / Images.transform.childCount;
             Min = ModelDimensions.z / 2;
-            Debug.Log("Axial ModelDimensions.z: " + ModelDimensions.z);
         } else if(Coronal) {
 			InitialPosition = this.transform.localPosition;
 			SlicePerUnity = ModelDimensions.y / Images.transform.childCount;
             Min = ModelDimensions.y / 2;
-            Debug.Log("Coronal ModelDimensions.y: " + ModelDimensions.y);
         }
     }
 	
