@@ -8,30 +8,35 @@ public class SpreadSlicesOverModel : MonoBehaviour {
     public bool Axial;
 	public bool Coronal;
 	public GameObject Images;
-	public GameObject Implant;
+	//public GameObject Implant;
+
+    public Vector3 ModelDimensions = new Vector3(80,80,50);
 
     private Vector3 InitialPosition;
     private float Min;
     private float SlicePerUnity;
     private int LastSlice;
 
-	// Use this for initialization
-	void Start () {
-        Vector3 ModelDimensions = Implant.GetComponent<BoxCollider>().bounds.size * 3;
-        Implant.GetComponent<BoxCollider>().enabled = false;
+    // Use this for initialization
+    void Start () {
+        //Vector3 ModelDimensions = Implant.GetComponent<BoxCollider>().size;
+        //Implant.GetComponent<BoxCollider>().enabled = false;
 
         if (Sagittal) {
 			InitialPosition = this.transform.localPosition;
 			SlicePerUnity = ModelDimensions.x / Images.transform.childCount;
             Min = ModelDimensions.x / 2;
+            Debug.Log("Sagittal ModelDimensions.x : " + ModelDimensions.x);
         } else if(Axial) {
 			InitialPosition = this.transform.localPosition;
 			SlicePerUnity = ModelDimensions.z / Images.transform.childCount;
             Min = ModelDimensions.z / 2;
+            Debug.Log("Axial ModelDimensions.z: " + ModelDimensions.z);
         } else if(Coronal) {
 			InitialPosition = this.transform.localPosition;
 			SlicePerUnity = ModelDimensions.y / Images.transform.childCount;
             Min = ModelDimensions.y / 2;
+            Debug.Log("Coronal ModelDimensions.y: " + ModelDimensions.y);
         }
     }
 	
