@@ -4,45 +4,44 @@ using UnityEngine;
 
 public class Transformer : MonoBehaviour {
 
-    private Vector3 LastPosition;
     private Vector3 LastLocalPosition;
-    private Vector3 LastRotation;
-    private Vector3 LastClientRelativePos;
+	private Vector3 LastClientLocalPosition;
+    public static Vector3 SendingPosition;
 
-    public static Vector3 PositionRelativeToJaw;
+	private Vector3 LastLocalRotation;
+	private Vector3 LastClientLocalRotation;
+    public static Vector3 SendingRotation;
 
     void Start() {
-		LastRotation = Server.Rotation;
+		LastLocalRotation = Server.LocalRotation;
     }
 
 	void FixedUpdate () {
 
-		if (LastClientRelativePos == Server.RelativePosition) {
-			if (LastPosition != this.transform.position) {
-				LastLocalPosition = this.transform.localPosition;
-				PositionRelativeToJaw = this.transform.localPosition;
-			} else {
-				if (LastPosition == this.transform.position) {
-					this.transform.localPosition = LastLocalPosition;
-				} else if (LastPosition != this.transform.position) {
-					LastPosition = this.transform.position;
-					LastLocalPosition = this.transform.localPosition;
-				}
+		if(LastLocalPosition != this.transform.localPosition) { //this side(Server) changed position
+			LastLocalPosition = this.transform.localPosition;
+			SendingPosition = new Vector3 (this.transform.localPosition.x, -this.transform.localPosition.z, this.transform.localPosition.y);
+		} 
+		else{
+			Vector3 auxServerPosition = new Vector3(Server.LocalPosition.x, Server.LocalPosition.z, -Server.LocalPosition.y);
+			if(LastClientLocalPosition != auxServerPosition) { //the client change position
+				this.transform.localPosition = auxServerPosition;
+				LastLocalPosition = auxServerPosition;
+				LastClientLocalPosition = auxServerPosition;
 			}
-		} else if (!Transform3DView.IsRotating && LastClientRelativePos != Server.RelativePosition) {
-			LastClientRelativePos = Server.RelativePosition;
-			this.transform.localPosition = Server.RelativePosition;
-			if (LastPosition == this.transform.position) {
-				this.transform.localPosition = LastLocalPosition;
-			} else if (LastPosition != this.transform.position) {
-				LastPosition = this.transform.position;
-				LastLocalPosition = this.transform.localPosition;
-			}   
 		}
 
-		if (LastRotation != Server.Rotation) {
-			LastRotation = Server.Rotation;
-			transform.localEulerAngles = new Vector3 (-Server.Rotation.x, -Server.Rotation.z, Server.Rotation.y);
+		if(LastLocalRotation != this.transform.localEulerAngles) {
+			LastLocalRotation = this.transform.localEulerAngles;
+			SendingRotation = new Vector3 (this.transform.localEulerAngles.x, this.transform.localEulerAngles.z, this.transform.localEulerAngles.y);
+		} 
+		else {
+			Vector3 auxServerRotation= new Vector3(Server.LocalRotation.x, Server.LocalRotation.z, Server.LocalRotation.y);
+			if(LastClientLocalRotation!= auxServerRotation) { //the client  change position
+				this.transform.localEulerAngles = auxServerRotation;
+				LastLocalRotation = auxServerRotation;
+				LastClientLocalRotation = auxServerRotation;
+			}
 		}
 	}
 

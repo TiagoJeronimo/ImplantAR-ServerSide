@@ -18,10 +18,11 @@ public class Server : MonoBehaviour
 	private bool LoginTextDisable = false;
 
     public Text LoginText; 
-    public static Vector3 RelativePosition;
-	public static Vector3 Rotation;
+    public static Vector3 LocalPosition;
+	public static Vector3 LocalRotation;
 
     private Vector3 LastRelativePosition;
+    private Vector3 LastLocalRotation;
 
     public bool AllowBroadcastData;
 
@@ -76,11 +77,17 @@ public class Server : MonoBehaviour
                         OnIncomingData(c, data);
                 }
                 else if (AllowBroadcastData) {
-                    Vector3 relativePosition = Transformer.PositionRelativeToJaw;
+                    Vector3 relativePosition = Transformer.SendingPosition;
                     if (LastRelativePosition != relativePosition) {
-						Debug.Log ("sending data");
                         LastRelativePosition = relativePosition;
                         string message = relativePosition.ToString() + "1";
+                        //Debug.Log("sentMessage: " + message);
+                        Broadcast(message, clients);
+                    }
+                    Vector3 localRotation = Transformer.SendingRotation;
+                    if(LastLocalRotation != localRotation) {
+                        LastLocalRotation = localRotation;
+                        string message = localRotation.ToString() + "2";
                         //Debug.Log("sentMessage: " + message);
                         Broadcast(message, clients);
                     }
@@ -126,10 +133,10 @@ public class Server : MonoBehaviour
     private void OnIncomingData(ServerClient c, string data) {
         //All data sent by the client
         if (TransformType(data) == 1) //postion
-            if (data.StartsWith("(")) RelativePosition = StringToVector3(data);
+            if (data.StartsWith("(")) LocalPosition = StringToVector3(data);
 
 		if (TransformType(data) == 2) {//rotation 
-			Rotation = StringToVector3(data);
+			if (data.StartsWith("(")) LocalRotation = StringToVector3(data);
 		}
         //Broadcast(data, clients);
     }
@@ -164,26 +171,6 @@ public class Server : MonoBehaviour
             float.Parse(sArray[1]),
             float.Parse(sArray[2]));
 
-        return result;
-    }
-    
-    private Quaternion StringToQuaternion(string sQuaternion) {
-        // Remove the parentheses
-        if (sQuaternion.StartsWith("(")) {
-            sQuaternion = sQuaternion.Substring(1, sQuaternion.Length - 3);
-			Debug.Log ("sQ: " + sQuaternion);
-        }
-        // split the items
-        string[] sArray = sQuaternion.Split(',');
-
-		// store as a Quaternion
-        Quaternion result = new Quaternion(
-            float.Parse(sArray[0]),
-            float.Parse(sArray[1]),
-            float.Parse(sArray[2]), 
-            float.Parse(sArray[3]));
-
-		Debug.Log ("Quart: " + result.ToString ());
         return result;
     }
 
