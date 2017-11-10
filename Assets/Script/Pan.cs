@@ -13,26 +13,22 @@ public class Pan : MonoBehaviour {
     private float DistZ = 0;
 
     private bool IsSliding;
-    private bool CanPan;
+    private bool CanPan = true;
 
     void Update() {
+        if (!IsSliding && CanPan) {
+            if (Input.GetMouseButtonDown(0)) {
+                Ray ray = Camera.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
 
-        if (!IsSliding) {
-            CanPan = true;
-
-            Ray ray = Camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit)) {
-                if (hit.transform.CompareTag("MeshLess")) {
-                    CanPan = false;
-                } else {
-                    CanPan = true;
+                if (Physics.Raycast(ray, out hit)) {
+                    if (hit.transform.CompareTag("MeshLess")) {
+                        CanPan = false;
+                    } else {
+                        CanPan = true;
+                    }
                 }
-            } else {
-                CanPan = true;
             }
-
         } 
     }
 
@@ -66,10 +62,7 @@ public class Pan : MonoBehaviour {
         }
     }
     private void OnMouseUp() {
-        if (!IsSliding) {
-            if (CanPan) {
-                Dragit = false;
-            }
-        }
+        Dragit = false;
+        CanPan = true;
     }
 }

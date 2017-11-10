@@ -8,21 +8,20 @@ public class SliderManager : MonoBehaviour {
     public Camera Camera;
 
     //SLIDER
-    public Slider mainSlider;
-    public int DiplayedFileNumber = 1;
+    public Slider slider;
 
     //MOUSE SCROLL
-    private int ScrollWheelValue = 0;
     private Ray Ray;
     private RaycastHit2D Hit;
 
     // Use this for initialization
+    void Awake () {
+        slider.onValueChanged.AddListener(HandleSliderChanged);
+    }
+
+
     void Start () {
-        foreach (Transform child in this.transform) {
-            child.gameObject.SetActive(false);
-        }
-        this.transform.GetChild(DiplayedFileNumber).gameObject.SetActive(true);
-        mainSlider.value = DiplayedFileNumber;
+        HandleSliderChanged(slider.value);
     }
 	
 	// Update is called once per frame
@@ -31,22 +30,18 @@ public class SliderManager : MonoBehaviour {
         Hit = Physics2D.Raycast(Ray.origin, Ray.direction);
         if (Hit) {
             if (Input.GetAxis("Mouse ScrollWheel") != 0f) {
-                ScrollWheelValue += Mathf.RoundToInt(Input.GetAxis("Mouse ScrollWheel") * 100);
-                ScrollWheelValue = Mathf.Clamp(ScrollWheelValue, 0, 600);//prevents value from exceeding specified range
-                mainSlider.value = ScrollWheelValue;
-            } else {
-                ScrollWheelValue = (int)mainSlider.value;
+                slider.value += Mathf.RoundToInt(Input.GetAxis("Mouse ScrollWheel") * 100);
+                slider.value = Mathf.Clamp(slider.value, 0, 512);//prevents value from exceeding specified range
+                HandleSliderChanged(slider.value);
             }
         }
-
-        DiplayedFileNumber = (int)mainSlider.value;
     }
 
-    //Invoked when a submit button is clicked.
-    public void SubmitSliderSetting() {
+    private void HandleSliderChanged(float value)
+    {
         foreach (Transform child in this.transform) {
             child.gameObject.SetActive(false);
         }
-        this.transform.GetChild(DiplayedFileNumber).gameObject.SetActive(true);
+        this.transform.GetChild((int)value-1).gameObject.SetActive(true);
     }
 }

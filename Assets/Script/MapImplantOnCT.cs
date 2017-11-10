@@ -25,7 +25,7 @@ public class MapImplantOnCT : MonoBehaviour {
 		//Move Widgets
 		AxialImplantWidget.transform.localPosition = new Vector3 (this.transform.localPosition.x, this.transform.localPosition.y, AxialInitialZ + this.transform.localPosition.z);
 		CoronalImplantWidget.transform.localPosition = new Vector3 (this.transform.localPosition.x, -this.transform.localPosition.z, CoronalInitialZ - this.transform.localPosition.y);
-		SagittalImplantWidget.transform.localPosition = new Vector3 (-this.transform.localPosition.y, -this.transform.localPosition.z, SagittalInitialZ - this.transform.localPosition.x);
+		SagittalImplantWidget.transform.localPosition = new Vector3 (this.transform.localPosition.y, -this.transform.localPosition.z, SagittalInitialZ + this.transform.localPosition.x);
 
 		//Rotate Widgets
 		AxialImplantWidget.transform.localEulerAngles = this.transform.localEulerAngles;

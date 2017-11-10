@@ -9,8 +9,9 @@ public class SpreadSlicesOverModel : MonoBehaviour {
 	public bool Coronal;
 	public GameObject Images;
 	//public GameObject Implant;
+    public GameObject Model;
 
-    public Vector3 ModelDimensions = new Vector3(80,80,50);
+    public Vector3 ModelDimensions = new Vector3(82,60,75);
 
     private Vector3 InitialPosition;
     private float Min;
@@ -21,19 +22,22 @@ public class SpreadSlicesOverModel : MonoBehaviour {
     void Start () {
         //Vector3 ModelDimensions = Implant.GetComponent<BoxCollider>().size;
         //Implant.GetComponent<BoxCollider>().enabled = false;
+        
+        Bounds bounds = Model.GetComponent<MeshFilter>().mesh.bounds;
+        Debug.Log("bounds: " + bounds.ToString());
 
         if (Sagittal) {
 			InitialPosition = this.transform.localPosition;
-			SlicePerUnity = ModelDimensions.x / Images.transform.childCount;
-            Min = ModelDimensions.x / 2;
+			SlicePerUnity = bounds.extents.x / Images.transform.childCount;
+            Min = bounds.extents.x / 2;
         } else if(Axial) {
 			InitialPosition = this.transform.localPosition;
-			SlicePerUnity = ModelDimensions.z / Images.transform.childCount;
-            Min = ModelDimensions.z / 2;
+			SlicePerUnity = (bounds.extents.z * 2) / Images.transform.childCount;
+            Min = (bounds.extents.z * 2) / 2;
         } else if(Coronal) {
 			InitialPosition = this.transform.localPosition;
-			SlicePerUnity = ModelDimensions.y / Images.transform.childCount;
-            Min = ModelDimensions.y / 2;
+			SlicePerUnity = bounds.extents.y / Images.transform.childCount;
+            Min = bounds.extents.y / 2;
         }
     }
 	

@@ -26,13 +26,13 @@ public class MoveStencilImplant : MonoBehaviour {
         RaycastHit hit;
         if (!IsSliding) {
             if (Physics.Raycast(ray, out hit) && hit.transform.CompareTag("MeshLess")) {
-               if (Input.GetMouseButtonDown(0) && !Dragit) {
+               if (Input.GetMouseButtonDown(0) && !Dragit && !Rotating) {
                     MousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
                     InitialPos = Camera.ScreenToWorldPoint(MousePosition);
                     ImplantInitialPos = Implant.transform.localPosition;
                     Dragit = true;
                 }
-                else if (Input.GetMouseButtonDown(1) && !Rotating) {
+                else if (Input.GetMouseButtonDown(1) && !Rotating && !Dragit) {
                     MousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
                     InitialPos = Camera.ScreenToWorldPoint(MousePosition);
                     ImplantInitialRotation = Implant.transform.localEulerAngles;
@@ -48,10 +48,10 @@ public class MoveStencilImplant : MonoBehaviour {
                     Vector3 auxTransf = new Vector3(ImplantInitialPos.x + auxPos.x, Implant.transform.localPosition.y, ImplantInitialPos.z - auxPos.y);
                     Implant.transform.localPosition = new Vector3(auxTransf.x, Implant.transform.localPosition.y, auxTransf.z);
                 } else if (Axial) {
-                    Vector3 auxTransf = new Vector3(ImplantInitialPos.x + auxPos.x, ImplantInitialPos.y + auxPos.y, Implant.transform.localPosition.z);
+                    Vector3 auxTransf = new Vector3(ImplantInitialPos.x + auxPos.x, ImplantInitialPos.y - auxPos.y, Implant.transform.localPosition.z);
                     Implant.transform.localPosition = new Vector3(auxTransf.x, auxTransf.y, Implant.transform.localPosition.z);
                 } else if (Sagittal) {
-                    Vector3 auxTransf = new Vector3(Implant.transform.localPosition.x, ImplantInitialPos.y - auxPos.x, ImplantInitialPos.z - auxPos.y);
+                    Vector3 auxTransf = new Vector3(Implant.transform.localPosition.x, ImplantInitialPos.y + auxPos.x, ImplantInitialPos.z - auxPos.y);
                     Implant.transform.localPosition = new Vector3(Implant.transform.localPosition.x, auxTransf.y, auxTransf.z);
                 }
             } else if (Rotating) {
