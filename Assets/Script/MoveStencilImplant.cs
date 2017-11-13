@@ -10,6 +10,8 @@ public class MoveStencilImplant : MonoBehaviour {
 	public bool Sagittal;
 	public bool Coronal;
 
+    public float WidImpDif = 2;
+
     //Position
 	private Vector3 ImplantInitialPos;
 	private Vector3 MousePosition;
@@ -45,13 +47,13 @@ public class MoveStencilImplant : MonoBehaviour {
                 Vector3 pos = Camera.ScreenToWorldPoint(MousePosition);
                 Vector3 auxPos = pos - InitialPos;
                 if (Coronal) {
-                    Vector3 auxTransf = new Vector3(ImplantInitialPos.x + auxPos.x, Implant.transform.localPosition.y, ImplantInitialPos.z - auxPos.y);
+                    Vector3 auxTransf = new Vector3(ImplantInitialPos.x + auxPos.x/WidImpDif, Implant.transform.localPosition.y, ImplantInitialPos.z - auxPos.y/WidImpDif);
                     Implant.transform.localPosition = new Vector3(auxTransf.x, Implant.transform.localPosition.y, auxTransf.z);
                 } else if (Axial) {
-                    Vector3 auxTransf = new Vector3(ImplantInitialPos.x + auxPos.x, ImplantInitialPos.y - auxPos.y, Implant.transform.localPosition.z);
+                    Vector3 auxTransf = new Vector3(ImplantInitialPos.x + auxPos.x/WidImpDif, ImplantInitialPos.y + auxPos.y/WidImpDif, Implant.transform.localPosition.z);
                     Implant.transform.localPosition = new Vector3(auxTransf.x, auxTransf.y, Implant.transform.localPosition.z);
                 } else if (Sagittal) {
-                    Vector3 auxTransf = new Vector3(Implant.transform.localPosition.x, ImplantInitialPos.y + auxPos.x, ImplantInitialPos.z - auxPos.y);
+                    Vector3 auxTransf = new Vector3(Implant.transform.localPosition.x, ImplantInitialPos.y + auxPos.x/WidImpDif, ImplantInitialPos.z - auxPos.y/WidImpDif);
                     Implant.transform.localPosition = new Vector3(Implant.transform.localPosition.x, auxTransf.y, auxTransf.z);
                 }
             } else if (Rotating) {

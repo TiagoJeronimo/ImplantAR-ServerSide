@@ -5,12 +5,15 @@ using UnityEngine;
 public class Zoom : MonoBehaviour {
 
 	public float ZoomValue = 45;
-	public float NormalValue = 90;
     public float Smooth = 5;
-
     public Camera Camera;
 
+    private float NormalValue;
 	private bool IsZoomed = false;
+
+    void Awake () {
+        NormalValue = Camera.orthographicSize;
+    }
 
 	void Update () {
 		if (IsZoomed) {

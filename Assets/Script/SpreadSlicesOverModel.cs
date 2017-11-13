@@ -7,6 +7,7 @@ public class SpreadSlicesOverModel : MonoBehaviour {
     public bool Sagittal;
     public bool Axial;
 	public bool Coronal;
+    public float CameraSize;
 	public GameObject Images;
 	//public GameObject Implant;
     public GameObject Model;
@@ -28,16 +29,16 @@ public class SpreadSlicesOverModel : MonoBehaviour {
 
         if (Sagittal) {
 			InitialPosition = this.transform.localPosition;
-			SlicePerUnity = bounds.extents.x / Images.transform.childCount;
-            Min = bounds.extents.x / 2;
+			SlicePerUnity = CameraSize / Images.transform.childCount;
+            Min = CameraSize/ 2;
         } else if(Axial) {
 			InitialPosition = this.transform.localPosition;
-			SlicePerUnity = (bounds.extents.z * 2) / Images.transform.childCount;
-            Min = (bounds.extents.z * 2) / 2;
+			SlicePerUnity = CameraSize / Images.transform.childCount;
+            Min = CameraSize/ 2;
         } else if(Coronal) {
 			InitialPosition = this.transform.localPosition;
-			SlicePerUnity = bounds.extents.y / Images.transform.childCount;
-            Min = bounds.extents.y / 2;
+			SlicePerUnity = CameraSize / Images.transform.childCount;
+            Min = CameraSize/ 2;
         }
     }
 	
@@ -54,11 +55,11 @@ public class SpreadSlicesOverModel : MonoBehaviour {
                 if (LastSlice != i) {
                     LastSlice = i;
 					if (Sagittal) {
-						coordPosition = InitialPosition.z - Min + (i * SlicePerUnity);
+						coordPosition = -(InitialPosition.z + Min + (i * SlicePerUnity));
 					} else if (Axial) {
-						coordPosition = InitialPosition.z - Min + (i * SlicePerUnity);
+						coordPosition = -(InitialPosition.z + Min + (i * SlicePerUnity));
 					} else if (Coronal) {
-						coordPosition = InitialPosition.z - Min + (i * SlicePerUnity);
+						coordPosition = -(InitialPosition.z + Min + (i * SlicePerUnity));
 					}
                 } else if (Sagittal) {
                     coordPosition = this.transform.localPosition.z;
