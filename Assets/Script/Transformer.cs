@@ -18,12 +18,13 @@ public class Transformer : MonoBehaviour {
 
 	void FixedUpdate () {
 
+        //Position
 		if(LastLocalPosition != this.transform.localPosition) { //this side(Server) changed position
 			LastLocalPosition = this.transform.localPosition;
-			SendingPosition = new Vector3 (this.transform.localPosition.x, -this.transform.localPosition.z, this.transform.localPosition.y);
+			SendingPosition = new Vector3 (-this.transform.localPosition.x, -this.transform.localPosition.z, -this.transform.localPosition.y);
 		} 
 		else{
-			Vector3 auxServerPosition = new Vector3(Server.LocalPosition.x, Server.LocalPosition.z, -Server.LocalPosition.y);
+			Vector3 auxServerPosition = new Vector3(-Server.LocalPosition.x, -Server.LocalPosition.z, -Server.LocalPosition.y);
 			if(LastClientLocalPosition != auxServerPosition) { //the client change position
 				this.transform.localPosition = auxServerPosition;
 				LastLocalPosition = auxServerPosition;
@@ -31,6 +32,7 @@ public class Transformer : MonoBehaviour {
 			}
 		}
 
+        //Rotation
 		if(LastLocalRotation != this.transform.localEulerAngles) {
 			LastLocalRotation = this.transform.localEulerAngles;
 			SendingRotation = new Vector3 (this.transform.localEulerAngles.x, this.transform.localEulerAngles.z, this.transform.localEulerAngles.y);
