@@ -62,7 +62,7 @@ public class MoveStencilImplant : MonoBehaviour {
                 if (Coronal) {
                     Implant.transform.localEulerAngles = new Vector3(Implant.transform.localEulerAngles.x, ImplantInitialRotation.y - auxPos.x, Implant.transform.localEulerAngles.z);
                 } else if (Sagittal) {
-                    Implant.transform.localEulerAngles = new Vector3(ImplantInitialRotation.x - auxPos.x, Implant.transform.localEulerAngles.y, Implant.transform.localEulerAngles.z);
+                    Implant.transform.localEulerAngles = new Vector3(ImplantInitialRotation.x + auxPos.x, Implant.transform.localEulerAngles.y, Implant.transform.localEulerAngles.z);
                 }
             }
 

@@ -35,7 +35,7 @@ public class MapImplantOnCT : MonoBehaviour {
 		AxialImplantWidget.transform.localEulerAngles = this.transform.localEulerAngles;
 		Quaternion auxCoronalRot = new Quaternion(-this.transform.localRotation.x, this.transform.localRotation.z, this.transform.localRotation.y, this.transform.localRotation.w) * Quaternion.Euler(90, 0, 0);
 		CoronalImplantWidget.transform.localRotation = auxCoronalRot;
-		Quaternion auxSagittalRot = new Quaternion(-this.transform.localRotation.y, this.transform.localRotation.z, this.transform.localRotation.x, this.transform.localRotation.w) * Quaternion.Euler(90, 0, 0);
+		Quaternion auxSagittalRot = new Quaternion(-this.transform.localRotation.y, this.transform.localRotation.z, -this.transform.localRotation.x, this.transform.localRotation.w) * Quaternion.Euler(90, 0, 0);
 		SagittalImplantWidget.transform.localRotation = auxSagittalRot; 
 
     }
