@@ -17,10 +17,6 @@ public class Transformer : MonoBehaviour {
     }
 
 	void FixedUpdate () {
-
-        Debug.Log("ScaleMode:" + this.transform.lossyScale);
-        Debug.Log("Scalelocal:" + this.transform.localScale);
-
         //Position
         if (LastLocalPosition != this.transform.localPosition) { //this side(Server) changed position
 			LastLocalPosition = this.transform.localPosition;
@@ -49,9 +45,4 @@ public class Transformer : MonoBehaviour {
 			}
 		}
 	}
-
-	/*void OnGUI() {
-		GUI.Label(new Rect(10, 40, 1000, 20), "pos: " + this.transform.position);
-		GUI.Label(new Rect(10, 60, 1000, 20), "localPos: " + this.transform.localPosition);
-	}*/
 }

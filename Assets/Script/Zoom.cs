@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Zoom : MonoBehaviour {
 
-	public float ZoomValue = 45;
-    public float Smooth = 5;
+	public float ZoomValue = 30;
+    public int ScrollingSensitivity = 2;
     public Camera Camera;
 
     private float NormalValue;
@@ -15,17 +15,19 @@ public class Zoom : MonoBehaviour {
         NormalValue = Camera.orthographicSize;
     }
 
-	void Update () {
-		if (IsZoomed) {
-            Camera.orthographicSize = Mathf.Lerp (Camera.orthographicSize, ZoomValue, Time.deltaTime * Smooth);
-		} else {
-            Camera.orthographicSize = Mathf.Lerp (Camera.orthographicSize, NormalValue, Time.deltaTime * Smooth);
-        }
-	}
-
     private void OnMouseOver() {
-        if (Input.GetMouseButtonDown(2)) {
-            IsZoomed = !IsZoomed;
+        ZoomInOut();
+    }
+
+    void ZoomInOut()
+    {
+        if (Input.GetAxis("Mouse ScrollWheel") > 0 && (Input.GetAxis("Mouse ScrollWheel") + Camera.orthographicSize) > ZoomValue + ScrollingSensitivity)
+        {
+            for (int sensitivityOfScrolling = ScrollingSensitivity; sensitivityOfScrolling > 0; sensitivityOfScrolling--) Camera.orthographicSize--;
+        }
+        if (Input.GetAxis("Mouse ScrollWheel") < 0 && (Input.GetAxis("Mouse ScrollWheel") + Camera.orthographicSize) < NormalValue - ScrollingSensitivity)
+        {
+            for (int sensitivityOfScrolling = ScrollingSensitivity; sensitivityOfScrolling > 0; sensitivityOfScrolling--) Camera.orthographicSize++;
         }
     }
 }

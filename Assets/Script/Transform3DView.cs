@@ -10,7 +10,7 @@ public class Transform3DView : MonoBehaviour {
     public float ScrollSpeed = 10;*/
 
     public float ZoomValue = 10;
-    public float Smooth = 5;
+    public int ScrollingSensitivity = 2;
     private bool IsZoomed = false;
     private float ZCameraInitialPos;
     private float ZTransformPos;
@@ -33,11 +33,11 @@ public class Transform3DView : MonoBehaviour {
 
     void Update() {
 
-        if (IsZoomed) {
+        /*if (IsZoomed) {
             Camera.transform.localPosition = new Vector3(Camera.transform.localPosition.x, Camera.transform.localPosition.y, Mathf.Lerp(Camera.transform.localPosition.z, ZTransformPos, Time.deltaTime * Smooth));
         } else {
             Camera.transform.localPosition = new Vector3(Camera.transform.localPosition.x, Camera.transform.localPosition.y, Mathf.Lerp(Camera.transform.localPosition.z, ZCameraInitialPos, Time.deltaTime * Smooth));
-        }
+        }*/
 
         if (Input.GetMouseButtonUp(1)) {
             IsRotating = false;
@@ -58,11 +58,30 @@ public class Transform3DView : MonoBehaviour {
             IsZoomed = !IsZoomed;
         }
 
-        //Zoom
-        /*ZoomAmount += Input.GetAxis("Mouse ScrollWheel");
-        ZoomAmount = Mathf.Clamp(ZoomAmount, -MaxToZoom, MaxToZoom);
-        float translate = Mathf.Min(Mathf.Abs(Input.GetAxis("Mouse ScrollWheel")), MaxToZoom - Mathf.Abs(ZoomAmount));
-        Camera.transform.Translate(0, 0, translate * ScrollSpeed * Mathf.Sign(Input.GetAxis("Mouse ScrollWheel")));*/
+        ZoomInOut();
+    }
+
+    void ZoomInOut()
+    {
+        if (Input.GetAxis("Mouse ScrollWheel") < 0 && (Input.GetAxis("Mouse ScrollWheel") + Camera.transform.localPosition.z) > ZCameraInitialPos)
+        {
+            float zCoord = Camera.transform.localPosition.z;
+            for (int sensitivityOfScrolling = ScrollingSensitivity; sensitivityOfScrolling > 0; sensitivityOfScrolling--)
+            {
+                zCoord--;
+                Camera.transform.localPosition = new Vector3(Camera.transform.localPosition.x, Camera.transform.localPosition.y, zCoord);
+            }
+        }
+        if (Input.GetAxis("Mouse ScrollWheel") > 0 && (Input.GetAxis("Mouse ScrollWheel") + Camera.transform.localPosition.z) < ZTransformPos)
+        {
+            float zCoord = Camera.transform.localPosition.z;
+            for (int sensitivityOfScrolling = ScrollingSensitivity; sensitivityOfScrolling > 0; sensitivityOfScrolling--)
+            {
+                zCoord++;
+                Camera.transform.localPosition = new Vector3(Camera.transform.localPosition.x, Camera.transform.localPosition.y, zCoord);
+
+            }
+        }
     }
 
     private void OnMouseDown() {

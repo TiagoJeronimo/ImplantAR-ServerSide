@@ -26,7 +26,7 @@ public class SliderManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Ray = Camera.ScreenPointToRay(Input.mousePosition);
+        /*Ray = Camera.ScreenPointToRay(Input.mousePosition);
         Hit = Physics2D.Raycast(Ray.origin, Ray.direction);
         if (Hit) {
             if (Input.GetAxis("Mouse ScrollWheel") != 0f) {
@@ -34,7 +34,7 @@ public class SliderManager : MonoBehaviour {
                 slider.value = Mathf.Clamp(slider.value, 0, 512);//prevents value from exceeding specified range
                 HandleSliderChanged(slider.value);
             }
-        }
+        }*/
     }
 
     private void HandleSliderChanged(float value)
