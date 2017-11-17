@@ -9,7 +9,6 @@ public class Zoom : MonoBehaviour {
     public Camera Camera;
 
     private float NormalValue;
-	private bool IsZoomed = false;
 
     void Awake () {
         NormalValue = Camera.orthographicSize;

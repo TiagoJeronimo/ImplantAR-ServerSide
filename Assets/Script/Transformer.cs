@@ -34,14 +34,14 @@ public class Transformer : MonoBehaviour {
         //Rotation
 		if(LastLocalRotation != this.transform.localEulerAngles) {
 			LastLocalRotation = this.transform.localEulerAngles;
-			SendingRotation = new Vector3 (-this.transform.localEulerAngles.x, -this.transform.localEulerAngles.z, -this.transform.localEulerAngles.y);
+            SendingRotation = new Vector3 (-this.transform.localEulerAngles.x, -this.transform.localEulerAngles.z, -this.transform.localEulerAngles.y);
 		} 
 		else {
-			Vector3 auxServerRotation= new Vector3(-Server.LocalRotation.x, -Server.LocalRotation.z, -Server.LocalRotation.y);
-			if(LastClientLocalRotation!= auxServerRotation) { //the client  change position
-				this.transform.localEulerAngles = auxServerRotation;
-				LastLocalRotation = auxServerRotation;
-				LastClientLocalRotation = auxServerRotation;
+            Vector3 auxServerRotation = new Vector3(-Server.LocalRotation.x, -Server.LocalRotation.z, -Server.LocalRotation.y);
+            if (LastClientLocalRotation != auxServerRotation) { //the client  change position
+                transform.localEulerAngles = auxServerRotation;
+				LastLocalRotation = transform.localEulerAngles;
+                LastClientLocalRotation = auxServerRotation;
 			}
 		}
 	}
