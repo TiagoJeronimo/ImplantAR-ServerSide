@@ -10,7 +10,7 @@ public class SpreadSlicesOverModel : MonoBehaviour {
     public float CameraSize;
 	public GameObject Images;
 	//public GameObject Implant;
-    public GameObject Model;
+    //public GameObject Model;
 
     public Vector3 ModelDimensions = new Vector3(82,60,75);
 
@@ -24,8 +24,8 @@ public class SpreadSlicesOverModel : MonoBehaviour {
         //Vector3 ModelDimensions = Implant.GetComponent<BoxCollider>().size;
         //Implant.GetComponent<BoxCollider>().enabled = false;
         
-        Bounds bounds = Model.GetComponent<MeshFilter>().mesh.bounds;
-        Debug.Log("bounds: " + bounds.ToString());
+        //Bounds bounds = Model.GetComponent<MeshFilter>().mesh.bounds;
+        //Debug.Log("bounds: " + bounds.ToString());
 
         if (Sagittal) {
 			InitialPosition = this.transform.localPosition;
