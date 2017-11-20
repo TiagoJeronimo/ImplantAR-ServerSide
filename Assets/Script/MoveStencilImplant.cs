@@ -60,12 +60,24 @@ public class MoveStencilImplant : MonoBehaviour {
                 Vector3 pos = Camera.ScreenToWorldPoint(MousePosition);
                 Vector3 auxPos = pos - InitialPos;
                 if (Coronal) {
-                    float auxRot = ImplantInitialRotation.y - auxPos.x;
+                    float auxRot;
+                    if (ImplantInitialRotation.y < -90)
+                        auxRot = ImplantInitialRotation.y +360 - auxPos.x;
+                    else if (ImplantInitialRotation.y > 90)
+                        auxRot = ImplantInitialRotation.y -360 - auxPos.x;
+                    else
+                        auxRot = ImplantInitialRotation.y - auxPos.x;
+
                     if(auxRot > -90 && auxRot < 90)
                         Implant.transform.localEulerAngles = new Vector3(Implant.transform.localEulerAngles.x, auxRot, Implant.transform.localEulerAngles.z);
                 } else if (Sagittal) {
-                    float auxRot = ImplantInitialRotation.x + auxPos.x;
-                    //Debug.Log("rot: " + auxRot);
+                    float auxRot;
+                    if (ImplantInitialRotation.x < -90)
+                        auxRot = ImplantInitialRotation.x +360 + auxPos.x;
+                    else if (ImplantInitialRotation.x > 90)
+                        auxRot = ImplantInitialRotation.x -360 + auxPos.x;
+                    else
+                        auxRot = ImplantInitialRotation.x + auxPos.x;
                     if (auxRot > -90 && auxRot < 90)
                         Implant.transform.localEulerAngles = new Vector3(auxRot, Implant.transform.localEulerAngles.y, Implant.transform.localEulerAngles.z);
                 }
