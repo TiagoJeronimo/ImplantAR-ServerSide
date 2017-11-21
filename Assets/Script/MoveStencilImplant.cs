@@ -10,11 +10,10 @@ public class MoveStencilImplant : MonoBehaviour {
 	public bool Sagittal;
 	public bool Coronal;
 
-    public float WidImpDif = 2;
-
     //Position
 	private Vector3 ImplantInitialPos;
 	private Vector3 MousePosition;
+	private Vector3 OldMousePosition; 
 	private Vector3 InitialPos;
 	private bool Dragit = false;
     private bool IsSliding;
@@ -22,6 +21,17 @@ public class MoveStencilImplant : MonoBehaviour {
     //Rotation
     private Vector3 ImplantInitialRotation;
     private bool Rotating = false;
+
+	//Used to prevent moving the widget implant in two directions at the same click
+	private bool Getdir = true;
+	private int DirNumb = 5;
+	public bool MouseOneDirection = true;
+
+	public float WidImpDif = 2;
+
+	void Start() {
+		OldMousePosition = MousePosition;
+	}
 
     void Update() {
         Ray ray = Camera.ScreenPointToRay(Input.mousePosition);
@@ -43,9 +53,21 @@ public class MoveStencilImplant : MonoBehaviour {
             }
 
             MousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+
             if (Dragit) {
                 Vector3 pos = Camera.ScreenToWorldPoint(MousePosition);
-                Vector3 auxPos = pos - InitialPos;
+				Vector3 auxPos = pos - InitialPos;
+
+				if (MouseOneDirection) {
+					if (Getdir && (Mathf.Abs (auxPos.x) >= 1 || Mathf.Abs (auxPos.y) >= 1))
+						DirNumb = MouseDirection (auxPos);
+
+					if (DirNumb == 0)
+						auxPos.y = 0;
+					else if (DirNumb == 1)
+						auxPos.x = 0;
+				}
+
                 if (Coronal) {
                     Vector3 auxTransf = new Vector3(ImplantInitialPos.x + auxPos.x/WidImpDif, Implant.transform.localPosition.y, ImplantInitialPos.z - auxPos.y/WidImpDif);
                     Implant.transform.localPosition = new Vector3(auxTransf.x, Implant.transform.localPosition.y, auxTransf.z);
@@ -83,12 +105,24 @@ public class MoveStencilImplant : MonoBehaviour {
                 }
             }
 
-            if (Input.GetMouseButtonUp(0))
+			if (Input.GetMouseButtonUp(0)) {
                 Dragit = false;
+				Getdir = true;
+			}
             if (Input.GetMouseButtonUp(1))
                 Rotating = false;
         }
     }
+
+	private int MouseDirection(Vector3 auxPos) {
+		Getdir = false;
+		if (Mathf.Abs (auxPos.x) > Mathf.Abs (auxPos.y)) {
+			return 0;//auxPos.y = 0;
+		} else if (Mathf.Abs (auxPos.x) < Mathf.Abs (auxPos.y)) {
+			return 1;//auxPos.x = 0; 
+		} else
+			return 2;
+	}
 
     public void SliderSelected() {
         IsSliding = true;
