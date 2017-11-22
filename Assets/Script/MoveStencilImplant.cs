@@ -59,7 +59,7 @@ public class MoveStencilImplant : MonoBehaviour {
 				Vector3 auxPos = pos - InitialPos;
 
 				if (MouseOneDirection) {
-					if (Getdir && (Mathf.Abs (auxPos.x) >= 1 || Mathf.Abs (auxPos.y) >= 1))
+					if (Getdir && (Mathf.Abs (auxPos.x) >= 2 || Mathf.Abs (auxPos.y) >= 2))
 						DirNumb = MouseDirection (auxPos);
 
 					if (DirNumb == 0)
