@@ -8,13 +8,16 @@ public class ForceAspectRatio : MonoBehaviour {
 
     void Start()
 	{
-		Screen.SetResolution(Screen.height, Screen.height, false);
+		Screen.SetResolution(Screen.height, Screen.height, true);
 	}
 
 	void Update() {
 		if (Input.GetKeyDown (KeyCode.F11)) {
 			Screen.fullScreen = !Screen.fullScreen;
 		}
+
+		if (Input.GetKey("escape"))
+			Application.Quit();
 	}
 
     void LateUpdate() {
@@ -35,7 +38,7 @@ public class ForceAspectRatio : MonoBehaviour {
     IEnumerator SetResolution() {
         IsReseting = true;
         Screen.fullScreen = !Screen.fullScreen;
-        Screen.SetResolution(Screen.width, Screen.width, false);
+		Screen.SetResolution(Screen.height, Screen.height, false);
         yield return new WaitForSeconds(0.5F);
         IsReseting = false;
     }
