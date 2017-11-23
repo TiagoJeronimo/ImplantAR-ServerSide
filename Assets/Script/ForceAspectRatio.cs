@@ -8,20 +8,28 @@ public class ForceAspectRatio : MonoBehaviour {
 
     void Start()
 	{
-		Screen.SetResolution(750, 750, false);
+		Screen.SetResolution(Screen.height, Screen.height, false);
+	}
+
+	void Update() {
+		if (Input.GetKeyDown (KeyCode.F11)) {
+			Screen.fullScreen = !Screen.fullScreen;
+		}
 	}
 
     void LateUpdate() {
-        if (!IsReseting) {
-            if (Screen.width != LastWidth) {
-                // user is resizing width
-                StartCoroutine(SetResolution());
-                LastWidth = Screen.width;
-            } else {
-                // user is resizing height
-                StartCoroutine(SetResolution());
-            }
-        }
+		if (!Screen.fullScreen) {
+			if (!IsReseting) {
+				if (Screen.width != LastWidth) {
+					// user is resizing width
+					StartCoroutine (SetResolution ());
+					LastWidth = Screen.width;
+				} else {
+					// user is resizing height
+					StartCoroutine (SetResolution ());
+				}
+			}
+		}
     }
 
     IEnumerator SetResolution() {

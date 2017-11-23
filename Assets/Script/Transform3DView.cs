@@ -32,13 +32,6 @@ public class Transform3DView : MonoBehaviour {
     }
 
     void Update() {
-
-        /*if (IsZoomed) {
-            Camera.transform.localPosition = new Vector3(Camera.transform.localPosition.x, Camera.transform.localPosition.y, Mathf.Lerp(Camera.transform.localPosition.z, ZTransformPos, Time.deltaTime * Smooth));
-        } else {
-            Camera.transform.localPosition = new Vector3(Camera.transform.localPosition.x, Camera.transform.localPosition.y, Mathf.Lerp(Camera.transform.localPosition.z, ZCameraInitialPos, Time.deltaTime * Smooth));
-        }*/
-
         if (Input.GetMouseButtonUp(1)) {
             IsRotating = false;
         }
