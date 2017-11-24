@@ -1,13 +1,10 @@
-﻿using System.Collections;
+﻿using RuntimeGizmos;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Transform3DView : MonoBehaviour {
-
-    //Zoom
-    /*private float ZoomAmount = 0;
-    public float MaxToZoom = 1;
-    public float ScrollSpeed = 10;*/
 
     public float ZoomValue = 10;
     public int ScrollingSensitivity = 2;
@@ -26,28 +23,41 @@ public class Transform3DView : MonoBehaviour {
 
     public Camera Camera;
 
+    public static bool MakeTransformations;
+
     void Start() {
         ZCameraInitialPos = Camera.transform.localPosition.z;
         ZTransformPos = Camera.transform.localPosition.z + ZoomValue;
+
     }
 
     void Update() {
-        if (Input.GetMouseButtonUp(1)) {
-            IsRotating = false;
-        }
+        if (TransformGizmo.target == null)
+        {
+            if (Input.GetMouseButtonUp(1))
+            {
+                IsRotating = false;
+            }
 
-        if (IsRotating) {
-            transform.GetChild(0).Rotate((Input.GetAxis("Mouse Y") * RotSpeed * Time.deltaTime), (Input.GetAxis("Mouse X") * -RotSpeed * Time.deltaTime), 0, Space.World);
+            if (IsRotating)
+            {
+                transform.GetChild(0).Rotate((Input.GetAxis("Mouse Y") * RotSpeed * Time.deltaTime), (Input.GetAxis("Mouse X") * -RotSpeed * Time.deltaTime), 0, Space.World);
+            }
         }
 
     }
 
     private void OnMouseOver() {
-        if (Input.GetMouseButtonDown(1)) {
+        if (TransformGizmo.target == null)
+        {
+            
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
             IsRotating = true;
         }
-
-        if (Input.GetMouseButtonDown(2)) {
+        if (Input.GetMouseButtonDown(2))
+        {
             IsZoomed = !IsZoomed;
         }
 
@@ -56,38 +66,28 @@ public class Transform3DView : MonoBehaviour {
 
     void ZoomInOut()
     {
-        if (Input.GetAxis("Mouse ScrollWheel") < 0 && (Input.GetAxis("Mouse ScrollWheel") + Camera.transform.localPosition.z) > ZCameraInitialPos)
-        {
-            float zCoord = Camera.transform.localPosition.z;
-            for (int sensitivityOfScrolling = ScrollingSensitivity; sensitivityOfScrolling > 0; sensitivityOfScrolling--)
-            {
-                zCoord--;
-                Camera.transform.localPosition = new Vector3(Camera.transform.localPosition.x, Camera.transform.localPosition.y, zCoord);
-            }
-        }
-        if (Input.GetAxis("Mouse ScrollWheel") > 0 && (Input.GetAxis("Mouse ScrollWheel") + Camera.transform.localPosition.z) < ZTransformPos)
-        {
-            float zCoord = Camera.transform.localPosition.z;
-            for (int sensitivityOfScrolling = ScrollingSensitivity; sensitivityOfScrolling > 0; sensitivityOfScrolling--)
-            {
-                zCoord++;
-                Camera.transform.localPosition = new Vector3(Camera.transform.localPosition.x, Camera.transform.localPosition.y, zCoord);
-
-            }
-        }
+        float fov  = Camera.fieldOfView;
+        fov -= Input.GetAxis("Mouse ScrollWheel") * ScrollingSensitivity;
+        fov = Mathf.Clamp(fov, ZoomValue, 60);
+        Camera.fieldOfView = fov;
     }
 
     private void OnMouseDown() {
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0))
+        {
             InitialPos = Camera.transform.localPosition;
             PanOrigin = Camera.ScreenToViewportPoint(Input.mousePosition);
         }
     }
 
     private void OnMouseDrag() {
-        if (Input.GetMouseButton(0)) {
-            Vector3 pos = Camera.ScreenToViewportPoint(Input.mousePosition) - PanOrigin;
-            Camera.transform.localPosition = InitialPos - pos * PanVelocity;
+        if (TransformGizmo.target == null)
+        {
+            if (Input.GetMouseButton(0))
+            {
+                Vector3 pos = Camera.ScreenToViewportPoint(Input.mousePosition) - PanOrigin;
+                Camera.transform.localPosition = InitialPos - pos * PanVelocity;
+            }
         }
     }
 }
