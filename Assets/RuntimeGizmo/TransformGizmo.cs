@@ -133,7 +133,7 @@ namespace RuntimeGizmos
 
 		void TransformSelected()
 		{
-			if(selectedAxis != Axis.None && Input.GetMouseButtonDown(0))
+			if(selectedAxis != Axis.None && (Input.GetMouseButtonDown(0)))
 			{
 				StartCoroutine(TransformSelected(type));
 			}
@@ -239,7 +239,7 @@ namespace RuntimeGizmos
 		void SelectAxis()
 		{
             Debug.Log("A");
-			if(!Input.GetMouseButtonDown(0)) return;
+			if(!Input.GetMouseButtonDown(0) && !Input.GetMouseButtonDown(1)) return;
 			selectedAxis = Axis.None;
 
 			float xClosestDistance = float.MaxValue;

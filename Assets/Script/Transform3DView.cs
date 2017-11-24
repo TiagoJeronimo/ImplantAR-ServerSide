@@ -32,6 +32,7 @@ public class Transform3DView : MonoBehaviour {
     }
 
     void Update() {
+
         if (TransformGizmo.target == null)
         {
             if (Input.GetMouseButtonUp(1))
@@ -43,15 +44,14 @@ public class Transform3DView : MonoBehaviour {
             {
                 transform.GetChild(0).Rotate((Input.GetAxis("Mouse Y") * RotSpeed * Time.deltaTime), (Input.GetAxis("Mouse X") * -RotSpeed * Time.deltaTime), 0, Space.World);
             }
+        } else
+        {
+            IsRotating = false;
         }
 
     }
 
     private void OnMouseOver() {
-        if (TransformGizmo.target == null)
-        {
-            
-        }
         if (Input.GetMouseButtonDown(1))
         {
             IsRotating = true;
