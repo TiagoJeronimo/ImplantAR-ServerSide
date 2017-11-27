@@ -238,7 +238,6 @@ namespace RuntimeGizmos
 		AxisVectors selectedLinesBuffer = new AxisVectors();
 		void SelectAxis()
 		{
-            Debug.Log("A");
 			if(!Input.GetMouseButtonDown(0) && !Input.GetMouseButtonDown(1)) return;
 			selectedAxis = Axis.None;
 
