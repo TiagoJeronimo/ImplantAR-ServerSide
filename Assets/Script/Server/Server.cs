@@ -20,6 +20,7 @@ public class Server : MonoBehaviour
     public Text LoginText; 
     public static Vector3 LocalPosition;
 	public static Vector3 LocalRotation;
+    public static int AttachScrew;
 
     private Vector3 LastRelativePosition;
     private Vector3 LastLocalRotation;
@@ -138,6 +139,12 @@ public class Server : MonoBehaviour
 		if (TransformType(data) == 2) {//rotation 
 			if (data.StartsWith("(")) LocalRotation = StringToVector3(data);
 		}
+
+        if (TransformType(data) == 3)
+        {
+            AttachScrew = int.Parse(data.Substring(0, 1));
+        }
+
         //Broadcast(data, clients);
     }
 

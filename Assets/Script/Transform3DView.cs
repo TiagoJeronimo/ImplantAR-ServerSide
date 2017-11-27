@@ -8,8 +8,6 @@ public class Transform3DView : MonoBehaviour {
     public float ZoomValue = 10;
     public int ScrollingSensitivity = 2;
     private bool IsZoomed = false;
-    private float ZCameraInitialPos;
-    private float ZTransformPos;
 
     //Rot
     public float RotSpeed = 6.0f;
@@ -23,12 +21,6 @@ public class Transform3DView : MonoBehaviour {
     public Camera Camera;
 
     public static bool MakeTransformations;
-
-    void Start() {
-        ZCameraInitialPos = Camera.transform.localPosition.z;
-        ZTransformPos = Camera.transform.localPosition.z + ZoomValue;
-
-    }
 
     void Update() {
 

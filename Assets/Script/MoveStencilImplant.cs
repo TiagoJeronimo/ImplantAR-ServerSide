@@ -13,7 +13,6 @@ public class MoveStencilImplant : MonoBehaviour {
     //Position
 	private Vector3 ImplantInitialPos;
 	private Vector3 MousePosition;
-	private Vector3 OldMousePosition; 
 	private Vector3 InitialPos;
 	private bool Dragit = false;
     private bool IsSliding;
@@ -28,10 +27,6 @@ public class MoveStencilImplant : MonoBehaviour {
 	public bool MouseOneDirection = true;
 
 	public float WidImpDif = 2;
-
-	void Start() {
-		OldMousePosition = MousePosition;
-	}
 
     void Update() {
         Ray ray = Camera.ScreenPointToRay(Input.mousePosition);
