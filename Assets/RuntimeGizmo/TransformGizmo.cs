@@ -228,7 +228,10 @@ namespace RuntimeGizmos
                 {
                     RaycastHit hit = hits[i];
                     if (hit.transform.CompareTag("Implant"))
+                    {
                         target = hit.transform;
+                        break;
+                    }
                     else
                         target = null;
                 }
@@ -314,7 +317,7 @@ namespace RuntimeGizmos
 		float GetDistanceMultiplier()
 		{
 			if(target == null) return 0f;
-			return Mathf.Max(.01f, Mathf.Abs(ExtVector3.MagnitudeInDirection(target.position - transform.position, myCamera.transform.forward)));
+			return Mathf.Max(.01f, Mathf.Abs(ExtVector3.MagnitudeInDirection(target.position - new Vector3(transform.position.x, transform.position.y, myCamera.fieldOfView*2-100), myCamera.transform.forward)));
 		}
 
 		void SetLines()
@@ -434,7 +437,7 @@ namespace RuntimeGizmos
 				AddCircle(target.position, axisInfo.xDirection, circleLength, axisVectors.x);
 				AddCircle(target.position, axisInfo.yDirection, circleLength, axisVectors.y);
 				//AddCircle(target.position, axisInfo.zDirection, circleLength, axisVectors.z);
-				//AddCircle(target.position, (target.position - transform.position).normalized, circleLength, axisVectors.all, false);
+				AddCircle(target.position, (target.position - transform.position).normalized, circleLength, axisVectors.all, false);
 			}
 		}
 
